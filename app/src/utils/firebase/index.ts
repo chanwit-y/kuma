@@ -1,15 +1,18 @@
 import {
-  DocumentData, collection, getFirestore,
-  CollectionReference, getDocs, getDoc, doc, QueryConstraint, where, query, setDoc, updateDoc
+  DocumentData,
+  collection, getFirestore,
+  CollectionReference, getDocs, getDoc, doc, QueryConstraint, where, query, setDoc, updateDoc,
+  Firestore
 } from "firebase/firestore"
 import { app } from "@/utils/config"
 
 class Firebase {
 
-  private firestore = getFirestore(app)
+  private _firestore = getFirestore(app) 
+
 
   private getCollection<T = DocumentData>(name: string) {
-    return collection(this.firestore, name) as CollectionReference<T>
+    return collection(this._firestore, name) as CollectionReference<T>
   }
 
   public async findAll(name: string) {
@@ -18,7 +21,7 @@ class Firebase {
   }
 
   public async findById(name: string, id: string) {
-    const docs = doc(this.firestore, name, id)
+    const docs = doc(this._firestore, name, id)
     return (await getDoc(docs)).data()
   }
 
