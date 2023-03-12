@@ -1,4 +1,7 @@
-import { DocumentData, collection, getFirestore, CollectionReference, getDocs } from "firebase/firestore"
+import {
+  DocumentData, collection, getFirestore,
+  CollectionReference, getDocs, getDoc, doc, QueryConstraint, where, query, setDoc, updateDoc
+} from "firebase/firestore"
 import { app } from "@/utils/config"
 
 class Firebase {
@@ -14,6 +17,34 @@ class Firebase {
     return docs.docs.map((d) => d.data())
   }
 
+  public async findById(name: string, id: string) {
+    const docs = doc(this.firestore, name, id)
+    return (await getDoc(docs)).data()
+  }
+
+  public async findBy(name: string, filter: Map<string, any>) {
+    let result: any[] = []
+    let filters: QueryConstraint[] = []
+    for (const [k, v] of filter.entries())
+      filters = [...filters, where(k, "==", v)]
+
+    const q = query(this.getCollection(name), ...filters)
+    const d = await getDocs(q)
+
+    d.forEach((i) => (result = [...result, { doc_id: i.id, ...i.data() }]))
+
+    return result
+  }
+
+  public async add(name: string, data: any) {
+    const ref = doc(this.getCollection(name))
+    await setDoc(ref, data)
+  }
+
+  public async update(name: string, id: string, field: string, value: unknown, ...moreFieldValues: unknown[]) {
+    const ref = doc(this.getCollection(name))
+    await updateDoc(ref, field, value, ...moreFieldValues)
+  }
 
 }
 
