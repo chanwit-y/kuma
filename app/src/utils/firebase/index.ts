@@ -2,7 +2,6 @@ import {
   DocumentData,
   collection, getFirestore,
   CollectionReference, getDocs, getDoc, doc, QueryConstraint, where, query, setDoc, updateDoc,
-  Firestore
 } from "firebase/firestore"
 import { app } from "@/utils/config"
 
@@ -45,7 +44,7 @@ class Firebase {
   }
 
   public async update(name: string, id: string, field: string, value: unknown, ...moreFieldValues: unknown[]) {
-    const ref = doc(this.getCollection(name))
+    const ref = doc(this._firestore, name, id)
     await updateDoc(ref, field, value, ...moreFieldValues)
   }
 
