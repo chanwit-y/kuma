@@ -28,9 +28,14 @@ export type Condition = {
   operator: BooleanOpterator
 }
 
+export type DataType = {}
+
+// Custom type
+export type KeyValue = {[key: string]: any}
 
 export type Variable = {
   name: string
+  dataType: DataType | KeyValue
   scope: string
   value: any
 }
