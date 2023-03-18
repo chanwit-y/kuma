@@ -33,6 +33,12 @@ export type DataType = {}
 // Custom type
 export type KeyValue = {[key: string]: any}
 
+export type Field = {
+  fieldName: string
+  dataType: string
+  alias?: string
+}
+
 export type Variable = {
   name: string
   dataType: DataType | KeyValue
