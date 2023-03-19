@@ -11,6 +11,7 @@ export enum StatementType {
   Map,
   Query,
   Function,
+  GetAPI
 }
 
 export enum BooleanOpterator {
@@ -34,6 +35,7 @@ export type Condition = {
 };
 
 export enum DataType {
+  ArrayString, 
   String,
   Number,
   Object,
@@ -47,14 +49,17 @@ export type Field = {
   fieldName: string;
   dataType: DataType;
   objectName?: string;
+  // scope?: string;
   alias?: string;
 };
 
 export type Variable = {
   name: string;
   dataType: DataType | KeyValue;
+  objectName?: string;
   scope: string;
-  value: any;
+  value?: any;
+  field?: Field | Field[];
 };
 
 export type If = {
@@ -96,18 +101,28 @@ export type CallFunction = {
 
 export type Statement = {
   type: StatementType;
-  variable: Variable;
-  if: IfStatement;
-  for: For;
-  forEach: ForEach;
-  map: Map;
-  callFunction: CallFunction;
+  variable?: Variable;
+  if?: IfStatement;
+  for?: For;
+  forEach?: ForEach;
+  map?: Map;
+  callFunction?: CallFunction;
+  getAPI?: GetAPI; 
 };
 
 export type StringArray = {
     name: string
     values: string[]
 }
+
+
+export type GetAPI = {
+  url: string;
+  parameter?: object; // /:param1/:param2
+  stringQuery?: object; // convert objection to string query
+  stringArray?: Field[]; // convert objection to string query
+  respone: Field[];
+};
 
 export type GetAPIRequest = {
   url: string;
@@ -118,7 +133,7 @@ export type GetAPIRequest = {
 
 export type Function = {
   name: string;
-  arguments: Variable[];
+  arguments: Field[];
   statements: Statement[];
-  result: Variable;
+  result: Field;
 };
