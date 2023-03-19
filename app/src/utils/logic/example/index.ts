@@ -1,5 +1,5 @@
 import { get } from "lodash";
-import { DataType, Field } from "../@types";
+import { DataType, Field, Function, StatementType } from "../@types";
 
 const Employee: Field[] = [
   {
@@ -56,6 +56,47 @@ const getFieldModel = (models: Field[], fieldName: string) => {
   }
 };
 
-export { ApproverDetail, Employee, getFieldModel };
+const func1: Function = {
+  name: "f1",
+  arguments: [
+    {
+      fieldName: "userIds",
+      dataType: DataType.ArrayString,
+    },
+  ],
+  statements: [
+    {
+      type: StatementType.GetAPI,
+      getAPI: {
+        url: "/user-profile/users",
+        stringArray: [
+          {
+            fieldName: "name",
+            dataType: DataType.String,
+          },
+          {
+            fieldName: "values",
+            dataType: DataType.ArrayString,
+          },
+        ],
+	respone: [
+		{
+			fieldName: "Data",
+			dataType: DataType.ArrayOject,
+			objectName: "Employee"
+		}
+	]
+      },
+    },
+  ],
+  result: {
+    fieldName: "Data",
+    dataType: DataType.ArrayOject,
+    objectName: "Employee",
+  },
+};
 
-// getFieldModel()
+
+//TODO: run func 1 process
+
+export { ApproverDetail, Employee, getFieldModel };
