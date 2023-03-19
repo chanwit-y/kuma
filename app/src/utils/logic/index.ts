@@ -6,7 +6,6 @@ const func1: Function = {
     {
       fieldName: "userIds",
       dataType: DataType.ArrayString,
-      scope: "f1",
     },
   ],
   statements: [
