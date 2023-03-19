@@ -1,4 +1,4 @@
-import { KeyValue } from "./@types";
+import { KeyValue } from "../@types";
 
 export function getValueFromNestedObject(obj: KeyValue, key: string): any {
   for (const prop in obj) {

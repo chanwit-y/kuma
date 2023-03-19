@@ -104,10 +104,16 @@ export type Statement = {
   callFunction: CallFunction;
 };
 
-export type GetAPI<P, Q> = {
+export type StringArray = {
+    name: string
+    values: string[]
+}
+
+export type GetAPIRequest = {
   url: string;
-  parameter: P; // /:param1/:param2
-  stringQuery: Q; // convert objection to string query
+  parameter?: object; // /:param1/:param2
+  stringQuery?: object; // convert objection to string query
+  stringArray?: StringArray; // convert objection to string query
 };
 
 export type Function = {
