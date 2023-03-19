@@ -1,25 +1,25 @@
 import { get } from "lodash";
-import { Field } from "../index.d";
+import { DataType, Field } from "../@types";
 
 const Employee: Field[] = [
   {
     fieldName: "UserID",
-    dataType: "string",
+    dataType: DataType.String,
     alias: "userId",
   },
   {
     fieldName: "PersonID",
-    dataType: "string",
+    dataType: DataType.String,
     alias: "personId",
   },
   {
     fieldName: "JobLevelDoa",
-    dataType: "string",
+    dataType: DataType.String,
     alias: "jobLevelDoa",
   },
   {
     fieldName: "JobLevelDoaNew",
-    dataType: "string",
+    dataType: DataType.String,
     alias: "jobLevelDoaNew",
   },
 ];
@@ -27,12 +27,13 @@ const Employee: Field[] = [
 const ApproverDetail: Field[] = [
   {
     fieldName: "UserID",
-    dataType: "string",
+    dataType: DataType.String,
     alias: "userId",
   },
   {
     fieldName: "Profile",
-    dataType: "Employee",
+    dataType: DataType.Object,
+    objectName: "Employee",
     alias: "profile",
   },
 ];
@@ -43,12 +44,12 @@ const MappingDataType = {
 };
 
 const getFieldModel = (models: Field[], fieldName: string) => {
-  // is primitive datatype
   const current = models.find((m) => m.fieldName === fieldName);
-  if (current && !["string"].includes(current.dataType)) {
+  // is primitive datatype
+  if (current && ![DataType.String].includes(current.dataType)) {
     const getMappingDataType = get(
       MappingDataType,
-      current.dataType,
+      current.objectName ?? "",
       {} as Field
     );
     console.log(getMappingDataType);

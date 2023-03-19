@@ -1,4 +1,4 @@
-import type { Function, Variable } from "./index.d";
+import type { Function, Variable } from "./@types";
 
 const func1: Function = {
 	name: "f1",
