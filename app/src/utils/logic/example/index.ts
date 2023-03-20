@@ -1,42 +1,48 @@
 import { get } from "lodash";
-import { DataType, Field, Function, StatementType } from "../@types";
+import { DataType, Field, Function, Model, StatementType } from "../@types";
 
-const Employee: Field[] = [
-  {
-    fieldName: "UserID",
-    dataType: DataType.String,
-    alias: "userId",
-  },
-  {
-    fieldName: "PersonID",
-    dataType: DataType.String,
-    alias: "personId",
-  },
-  {
-    fieldName: "JobLevelDoa",
-    dataType: DataType.String,
-    alias: "jobLevelDoa",
-  },
-  {
-    fieldName: "JobLevelDoaNew",
-    dataType: DataType.String,
-    alias: "jobLevelDoaNew",
-  },
-];
+const Employee: Model = {
+  name: "Employee",
+  fields: [
+    {
+      fieldName: "UserID",
+      dataType: DataType.String,
+      alias: "userId",
+    },
+    {
+      fieldName: "PersonID",
+      dataType: DataType.String,
+      alias: "personId",
+    },
+    {
+      fieldName: "JobLevelDoa",
+      dataType: DataType.String,
+      alias: "jobLevelDoa",
+    },
+    {
+      fieldName: "JobLevelDoaNew",
+      dataType: DataType.String,
+      alias: "jobLevelDoaNew",
+    },
+  ],
+};
 
-const ApproverDetail: Field[] = [
-  {
-    fieldName: "UserID",
-    dataType: DataType.String,
-    alias: "userId",
-  },
-  {
-    fieldName: "Profile",
-    dataType: DataType.Object,
-    objectName: "Employee",
-    alias: "profile",
-  },
-];
+const ApproverDetail: Model = {
+  name: "ApproverDetail",
+  fields: [
+    {
+      fieldName: "UserID",
+      dataType: DataType.String,
+      alias: "userId",
+    },
+    {
+      fieldName: "Profile",
+      dataType: DataType.Object,
+      objectName: "Employee",
+      alias: "profile",
+    },
+  ],
+};
 
 const MappingDataType = {
   Employee: Employee,
@@ -69,6 +75,7 @@ const func1: Function = {
       type: StatementType.GetAPI,
       getAPI: {
         url: "/user-profile/users",
+	configName: "azure service principal apvc",
         stringArray: [
           {
             fieldName: "name",
@@ -78,14 +85,14 @@ const func1: Function = {
             fieldName: "values",
             dataType: DataType.ArrayString,
           },
+        ], // get api and send string query array type
+        respone: [
+          {
+            fieldName: "Data",
+            dataType: DataType.ArrayOject,
+            objectName: "Employee",
+          },
         ],
-	respone: [
-		{
-			fieldName: "Data",
-			dataType: DataType.ArrayOject,
-			objectName: "Employee"
-		}
-	]
       },
     },
   ],
@@ -95,7 +102,6 @@ const func1: Function = {
     objectName: "Employee",
   },
 };
-
 
 //TODO: run func 1 process
 

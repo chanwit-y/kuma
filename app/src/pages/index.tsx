@@ -7,8 +7,9 @@ import { api } from "@/utils/api";
 import { useEffect } from "react";
 import { KeyValue } from "@/utils/logic/@types";
 import { getValueFromNestedObject } from "@/utils/logic/service/variable";
-import { ApproverDetail, getFieldModel } from "@/utils/logic/example";
+import { ApproverDetail, Employee, getFieldModel } from "@/utils/logic/example";
 import apiService from "@/utils/logic/service/api";
+import { Config } from "@/utils/logic/service/config";
 
 type Props = {
   data: KeyValue
@@ -18,7 +19,7 @@ const Home: NextPage<Props> = ({ data }) => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   useEffect(() => {
-    f.findAll("connection").then((r) => { console.log(r) })
+    // f.findAll("connection").then((r) => { console.log(r) })
   }, [])
 
   useEffect(() => {
@@ -40,6 +41,10 @@ const Home: NextPage<Props> = ({ data }) => {
       </Head>
       <main className="">
         <pre>{JSON.stringify(data, undefined, 2)}</pre>
+        <button onClick={async () => {
+          await f.add("configuraions", {
+          })
+        }}>Create model</button>
       </main>
     </>
   );
@@ -48,8 +53,11 @@ const Home: NextPage<Props> = ({ data }) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  getFieldModel(ApproverDetail, "Profile")
-  const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"]} })
+  getFieldModel(ApproverDetail.fields, "Profile")
+  const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
+  const config = new Config()
+  config.test()
+  // console.log('redis', await config.get())
   return {
     props: {
       data: res.data

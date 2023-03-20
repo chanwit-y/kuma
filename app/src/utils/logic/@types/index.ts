@@ -45,6 +45,11 @@ export enum DataType {
 // Custom type
 export type KeyValue = { [key: string]: any };
 
+export type Model = {
+  name: string
+  fields: Field[]
+}
+
 export type Field = {
   fieldName: string;
   dataType: DataType;
@@ -118,6 +123,7 @@ export type StringArray = {
 
 export type GetAPI = {
   url: string;
+  configName?: string;
   parameter?: object; // /:param1/:param2
   stringQuery?: object; // convert objection to string query
   stringArray?: Field[]; // convert objection to string query
