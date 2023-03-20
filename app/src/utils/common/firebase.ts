@@ -5,7 +5,7 @@ import {
 } from "firebase/firestore"
 import { app } from "@/utils/config"
 
-class Firebase {
+export class Firebase {
 
   private _firestore = getFirestore(app) 
 

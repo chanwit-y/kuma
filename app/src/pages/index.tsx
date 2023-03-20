@@ -1,21 +1,22 @@
 import { GetServerSideProps, type NextPage } from "next";
 import Head from "next/head";
 
-import f from "@/utils/firebase"
+import f from "@/utils/common/firebase"
 
 import { api } from "@/utils/api";
 import { useEffect } from "react";
 import { KeyValue } from "@/utils/logic/@types";
-import { getValueFromNestedObject } from "@/utils/logic/service/variable";
-import { ApproverDetail, Employee, getFieldModel } from "@/utils/logic/example";
+import { ApproverDetail, getFieldModel } from "@/utils/logic/example";
 import apiService from "@/utils/logic/service/api";
-import { Config } from "@/utils/logic/service/config";
+import config from "@/utils/logic/service/config";
+import { Configuraion } from "@/utils/logic/service/@types/config";
 
 type Props = {
-  data: KeyValue
+  data: Configuraion[] 
 }
 
 const Home: NextPage<Props> = ({ data }) => {
+
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   useEffect(() => {
@@ -55,12 +56,13 @@ export default Home;
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   getFieldModel(ApproverDetail.fields, "Profile")
   const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
-  const config = new Config()
-  config.test()
-  // console.log('redis', await config.get())
+  
+  console.log('redis', await config.findBy({name: "azure service principal apvc"}))
+  const c = await config.findBy({name: "azure service principal apvc"})
+
   return {
     props: {
-      data: res.data
+      data: c,
     },
   }
 }

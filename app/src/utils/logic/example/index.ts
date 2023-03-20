@@ -75,7 +75,7 @@ const func1: Function = {
       type: StatementType.GetAPI,
       getAPI: {
         url: "/user-profile/users",
-	configName: "azure service principal apvc",
+        configName: "azure service principal apvc",
         stringArray: [
           {
             fieldName: "name",
