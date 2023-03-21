@@ -1,0 +1,5 @@
+package approval2
+
+type handler struct {
+	service Service
+}

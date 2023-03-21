@@ -1,0 +1,6 @@
+package approval2
+
+type (
+	Service interface{}
+	service struct{ repo repository }
+)

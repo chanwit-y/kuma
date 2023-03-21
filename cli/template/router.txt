@@ -1,0 +1,9 @@
+package approval2
+
+import (
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+)
+
+func Router(r fiber.Router, db *gorm.DB) {
+}
