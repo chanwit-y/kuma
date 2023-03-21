@@ -6,4 +6,5 @@ import (
 )
 
 func Router(r fiber.Router, db *gorm.DB) {
+	approvalGroup := r.Group("/approval")
 }
