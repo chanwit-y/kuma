@@ -55,10 +55,12 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   getFieldModel(ApproverDetail.fields, "Profile")
-  const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
+  // const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
   
-  console.log('redis', await config.findBy({name: "azure service principal apvc"}))
+  // console.log('redis', await config.findBy({name: "azure service principal apvc"}))
   const c = await config.findBy({name: "azure service principal apvc"})
+  console.log('redis', c)
+  
 
   return {
     props: {
