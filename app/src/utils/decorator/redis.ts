@@ -16,10 +16,23 @@ type CasheOption = {
   type: CasheType;
 };
 
+function UpdateCasheParam() {
+  return (_: any, _2: string, descriptor: PropertyDescriptor) => {
+    const method = descriptor.value;
+    descriptor.value = async function () {
+      console.log("param");
+      console.table(arguments);
+
+      const data = await method.apply(this, arguments);
+    };
+  };
+}
+
 function Cashe({ redis, cacheKey, uniqueKey = "docId", type }: CasheOption) {
   return (_: any, _2: string, descriptor: PropertyDescriptor) => {
     const method = descriptor.value;
     descriptor.value = async function () {
+      console.log("cashe");
       const arg = arguments.length > 0 ? arguments[0] : undefined;
 
       let data: any[] = [];
@@ -49,22 +62,26 @@ function Cashe({ redis, cacheKey, uniqueKey = "docId", type }: CasheOption) {
           return data;
         }
         case CasheType.Update: {
-          // const uuid = arguments[0][uniqueKey];
-          // console.log("update", arguments)
-          // console.log(uuid)
+          const { firebase, name, params } = await method.apply(
+            this,
+            arguments
+          );
+          const newParams = Object.entries(params).reduce(
+            (r, [k, v], _) => ([...r, k, v]),
+            [] as any[]
+          );
 
-          // const params = arguments[0];
-          // console.log(arguments)
+          await firebase.update(
+            name,
+            params[uniqueKey],
+            "docId",
+            params[uniqueKey],
+            ...newParams
+          );
 
-          // const newArgs = Object.entries(params).reduce(
-          //   (r, [_, v], i) => ({ ...r, [i.toString()]: v }),
-          //   {}
-          // );
-
-          // console.log()
-          console.table(arguments)
-
-          await method.apply(this, arguments);
+          const index = data.findIndex((d) => d[uniqueKey] === params[uniqueKey])
+          data[index] = params 
+          redis.set(cacheKey, JSON.stringify(data))
         }
         case CasheType.Delete: {
         }
@@ -75,5 +92,5 @@ function Cashe({ redis, cacheKey, uniqueKey = "docId", type }: CasheOption) {
   };
 }
 
-export { Cashe, CasheType };
+export { Cashe, UpdateCasheParam, CasheType };
 // export type {CasheType}

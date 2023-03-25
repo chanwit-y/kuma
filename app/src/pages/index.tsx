@@ -57,12 +57,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   getFieldModel(ApproverDetail.fields, "Profile")
   // const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
 
-  await config.update({
-    docId: "ggrxmHfqYdD8huVFB3lN",
-    name: "connection string 2xx",
-    catagory: "sql connection xx",
-    item: []
-  })
 
   // await config.update("configuraions", "ggrxmHfqYdD8huVFB3lN", "docId", "ggrxmHfqYdD8huVFB3lN", "name", "beer")
   // await config.add({
@@ -77,6 +71,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
     // f: (c) => c.name === "azure service principal apvc"
   })
 
+  await config.update({
+    docId: "ggrxmHfqYdD8huVFB3lN",
+    name: "===== xxxx",
+    catagory: "===== xxxx",
+    item: []
+  })
   // console.log('redis', c)
 
 
