@@ -10,9 +10,11 @@ import { ApproverDetail, getFieldModel } from "@/utils/logic/example";
 import apiService from "@/utils/logic/service/api";
 import config from "@/utils/logic/service/config";
 import { Configuraion } from "@/utils/logic/service/@types/config";
+import { DocumentData } from "firebase/firestore";
 
 type Props = {
-  data: Configuraion[]
+  // data: Configuraion[]
+  data: DocumentData[]
 }
 
 const Home: NextPage<Props> = ({ data }) => {
@@ -43,8 +45,6 @@ const Home: NextPage<Props> = ({ data }) => {
       <main className="">
         <pre>{JSON.stringify(data, undefined, 2)}</pre>
         <button onClick={async () => {
-          await f.add("configuraions", {
-          })
         }}>Create model</button>
       </main>
     </>
@@ -57,12 +57,27 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   getFieldModel(ApproverDetail.fields, "Profile")
   // const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
 
-  // console.log('redis', await config.findBy({name: "azure service principal apvc"}))
-  const c = await config.findBy({
-    f: (c) => c.name === "azure service principal apvc"
+  await config.update({
+    docId: "ggrxmHfqYdD8huVFB3lN",
+    name: "connection string 2xx",
+    catagory: "sql connection xx",
+    item: []
   })
 
-  console.log('redis', c)
+  // await config.update("configuraions", "ggrxmHfqYdD8huVFB3lN", "docId", "ggrxmHfqYdD8huVFB3lN", "name", "beer")
+  // await config.add({
+  //   id: "",
+  //   name: "connnection string 3",
+  //   catagory: "sql connection",
+  //   item: []
+  // })
+
+  // console.log('redis', await config.findBy({name: "azure service principal apvc"}))
+  const c = await config.findBy({
+    // f: (c) => c.name === "azure service principal apvc"
+  })
+
+  // console.log('redis', c)
 
 
   return {
