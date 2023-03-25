@@ -1,7 +1,6 @@
 import { GetServerSideProps, type NextPage } from "next";
 import Head from "next/head";
 
-import f from "@/utils/common/firebase"
 
 import { api } from "@/utils/api";
 import { useEffect } from "react";
@@ -11,13 +10,15 @@ import apiService from "@/utils/logic/service/api";
 import config from "@/utils/logic/service/config";
 import { Configuraion } from "@/utils/logic/service/@types/config";
 import { DocumentData } from "firebase/firestore";
+import redis from "@/utils/common/redis";
 
 type Props = {
   // data: Configuraion[]
   data: DocumentData[]
+  cache: any;
 }
 
-const Home: NextPage<Props> = ({ data }) => {
+const Home: NextPage<Props> = ({ data, cache }) => {
 
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
@@ -44,8 +45,11 @@ const Home: NextPage<Props> = ({ data }) => {
       </Head>
       <main className="">
         <pre>{JSON.stringify(data, undefined, 2)}</pre>
-        <button onClick={async () => {
-        }}>Create model</button>
+        <hr />
+        <pre>{JSON.stringify(cache, undefined, 2)}</pre>
+
+        {/* <button onClick={async () => {
+        }}>Create model</button> */}
       </main>
     </>
   );
@@ -79,10 +83,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   })
   // console.log('redis', c)
 
+  const redisAlls = await redis.scan()
 
   return {
     props: {
       data: c,
+      cache: redisAlls
     },
   }
 }
