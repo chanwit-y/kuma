@@ -14,9 +14,9 @@ export class Firebase {
     return collection(this._firestore, name) as CollectionReference<T>
   }
 
-  public async findAll(name: string) {
+  public async findAll<T>(name: string) {
     const docs = await getDocs(this.getCollection((name)))
-    return docs.docs.map((d) => d.data())
+    return docs.docs.map((d) => d.data()) as T[]
   }
 
   public async findById(name: string, id: string) {

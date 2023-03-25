@@ -12,7 +12,7 @@ import config from "@/utils/logic/service/config";
 import { Configuraion } from "@/utils/logic/service/@types/config";
 
 type Props = {
-  data: Configuraion[] 
+  data: Configuraion[]
 }
 
 const Home: NextPage<Props> = ({ data }) => {
@@ -56,11 +56,14 @@ export default Home;
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   getFieldModel(ApproverDetail.fields, "Profile")
   // const res = await apiService.get({ url: "/user-profile/users", stringArray: { name: "userIds", values: ["dev-52", "120"] } })
-  
+
   // console.log('redis', await config.findBy({name: "azure service principal apvc"}))
-  const c = await config.findBy({name: "azure service principal apvc"})
+  const c = await config.findBy({
+    f: (c) => c.name === "azure service principal apvc"
+  })
+
   console.log('redis', c)
-  
+
 
   return {
     props: {

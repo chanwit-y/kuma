@@ -1,7 +1,8 @@
-import { KeyValue } from "../../@types"
+import { KeyValue } from "../../@types";
 
 export type Configuraion = {
-	name?: string
-	catagory?: string
-	item?: KeyValue
-}
+  id: string;
+  name?: string;
+  catagory?: string;
+  item?: KeyValue;
+};
