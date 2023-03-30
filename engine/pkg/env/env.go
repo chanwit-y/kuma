@@ -40,6 +40,8 @@ type env struct {
 
 	MICROSOFT_GRAPH_URL string
 
+	USER_PROFILE_API_ENDPOINT string
+
 	TEMP_PATH string
 	// APP_INSIGHTS_SEND_LIVE_METRICS bool
 	// more...
