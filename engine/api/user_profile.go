@@ -7,7 +7,9 @@ import (
 )
 
 type (
-	UserProfileApi interface{}
+	UserProfileApi interface {
+		GetByUserId(userId string) (res *model.Response[model.Employee], err error)
+	}
 	userProfileApi struct {
 		http        http.HttpClient
 		endpointUrl string
@@ -20,8 +22,7 @@ func NewUserProfileApi(http http.HttpClient) UserProfileApi {
 
 func (u userProfileApi) GetByUserId(userId string) (res *model.Response[model.Employee], err error) {
 	url := u.endpointUrl + "/user-profile/user/" + userId
-
-	if err := u.http.Get(url, res); err != nil {
+	if err := u.http.Get(url, &res); err != nil {
 		return nil, err
 	}
 
