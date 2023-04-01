@@ -1,4 +1,4 @@
-package main
+package v8
 
 import (
 	"fmt"

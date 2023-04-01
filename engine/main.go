@@ -1,7 +1,7 @@
 package main
 
 import (
-	"engine/api"
+	"engine/internal/api"
 	http "engine/pkg/http"
 	"fmt"
 )
