@@ -5,6 +5,7 @@ import (
 	"engine/internal/api"
 	http "engine/pkg/http"
 	"fmt"
+	"io/ioutil"
 
 	aft "engine/internal/v8"
 
@@ -15,6 +16,9 @@ func main() {
 	acquireToken, _ := http.NewBanpuAcquireToken(false)
 	httpClient := http.NewHttpClient(acquireToken)
 	userProfileApi := api.NewUserProfileApi(httpClient)
+
+	dataScript, _ := ioutil.ReadFile("./script/finalApprover.js")
+	// checkConditionCEO, _ := ioutil.ReadFile("./script/checkConditionCEO.js")
 
 	iso := v8.NewIsolate()              // create a new VM
 	global := v8.NewObjectTemplate(iso) // a template that represents a JS Object
@@ -28,14 +32,23 @@ func main() {
 
 	cpuProfiler.StartProfiling("profile-1")
 
+	if _, err := ctx.RunScript(string(dataScript), "finalApprover.js"); err != nil {
+		fmt.Printf("err %v \n", err)
+	}
+	// ctx.RunScript(string(checkConditionCEO), "checkConditionCEO.js") // any functions previously added to the context can be called
+
 	ctx.RunScript(`
-		const userProfile = getUserProfileByUserId('dev-52');
+		const x = data;	
 	`, "main.js") // any functions previously added to the context can be called
 
-	v8UserProfile, _ := ctx.RunScript("userProfile", "value.js") // return a value in JavaScript back to Go
-	x, _ := json.Marshal(v8UserProfile)
+	// v8UserProfile, _ := ctx.RunScript("ceo", "value.js") // return a value in JavaScript back to Go
+	v8Data, _ := ctx.RunScript("x", "value.js")
 
-	fmt.Printf("userProfile: %+v \n", string(x))
+	// x, _ := json.Marshal(v8UserProfile)
+	xData, _ := json.Marshal(v8Data)
+
+	// fmt.Printf("userProfile: %+v \n", string(x))
+	fmt.Printf("data: %+v \n", string(xData))
 
 	cpuProfile := cpuProfiler.StopProfiling("profile-1")
 	printTree("", cpuProfile.GetTopDownRoot())

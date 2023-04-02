@@ -1,4 +1,4 @@
-export const data = {
+const data = {
 	    "asOfDate": "2023-03-29 02:09:26.792205984 +0000 UTC",
 	    "userID": "6243",
 	    "doaEntryKey": "BPN_GEN_HRM_TRAVELING_OVERSEAS",
