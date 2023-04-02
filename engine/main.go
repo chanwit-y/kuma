@@ -18,14 +18,13 @@ func main() {
 	userProfileApi := api.NewUserProfileApi(httpClient)
 
 	dataScript, _ := ioutil.ReadFile("./script/finalApprover.js")
-	// checkConditionCEO, _ := ioutil.ReadFile("./script/checkConditionCEO.js")
+	checkConditionCEOScript, _ := ioutil.ReadFile("./script/checkConditionCEO.js")
 
 	iso := v8.NewIsolate()              // create a new VM
 	global := v8.NewObjectTemplate(iso) // a template that represents a JS Object
 	cpuProfiler := v8.NewCPUProfiler(iso)
 
 	apiFuncTemplate := aft.NewApiFuncTemplate(userProfileApi)
-	// must set global function before create context
 	apiFuncTemplate.SetupGetUserProfileByUserId(iso, global)
 
 	ctx := v8.NewContext(iso, global)
@@ -35,20 +34,19 @@ func main() {
 	if _, err := ctx.RunScript(string(dataScript), "finalApprover.js"); err != nil {
 		fmt.Printf("err %v \n", err)
 	}
-	// ctx.RunScript(string(checkConditionCEO), "checkConditionCEO.js") // any functions previously added to the context can be called
+	if _, err := ctx.RunScript(string(checkConditionCEOScript), "checkConditionCEO.js"); err != nil {
+		fmt.Printf("err %v \n", err)
+	}
 
 	ctx.RunScript(`
-		const x = data;	
+		const ceo = checkConditionCEO(data.requester)
 	`, "main.js") // any functions previously added to the context can be called
 
-	// v8UserProfile, _ := ctx.RunScript("ceo", "value.js") // return a value in JavaScript back to Go
-	v8Data, _ := ctx.RunScript("x", "value.js")
+	v8CEO, _ := ctx.RunScript("ceo", "value.js")
 
-	// x, _ := json.Marshal(v8UserProfile)
-	xData, _ := json.Marshal(v8Data)
+	result, _ := json.Marshal(v8CEO)
 
-	// fmt.Printf("userProfile: %+v \n", string(x))
-	fmt.Printf("data: %+v \n", string(xData))
+	fmt.Printf("ceo: %+v \n", string(result))
 
 	cpuProfile := cpuProfiler.StopProfiling("profile-1")
 	printTree("", cpuProfile.GetTopDownRoot())
