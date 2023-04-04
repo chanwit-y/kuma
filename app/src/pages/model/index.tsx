@@ -24,6 +24,8 @@ const Model: NextPage = () => {
 				return type 
 			else if (dayVal.isValid())
 				return "datetime"
+		} else if (type === "object") {
+			
 		}
 
 
