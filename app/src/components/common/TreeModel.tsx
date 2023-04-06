@@ -1,8 +1,10 @@
+import { DataType, Field } from '@/@types/Model';
 import { TreeItem, treeItemClasses, TreeItemProps, TreeView } from '@mui/lab'
-import { alpha, Box, Collapse, FormControl, InputLabel, MenuItem, Select, styled, SvgIcon, SvgIconProps, TextField } from '@mui/material';
+import { alpha, Collapse, styled, SvgIcon, SvgIconProps } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { animated, useSpring } from '@react-spring/web';
-import React, { ReactNode } from 'react'
+import React, { useState } from 'react'
+import { ModelItem } from './ModelItem';
 
 const MinusSquare = (props: SvgIconProps) => {
 	return (
@@ -79,6 +81,36 @@ const StyledTreeItem = styled((props: TreeItemProps) => {
 
 
 export const TreeModel = () => {
+	const [model, setModel] = useState<Field[]>([
+		{
+			name: "id",
+			dataType: DataType.Int,
+			fields: [],
+		},
+		{
+			name: "name",
+			dataType: DataType.String,
+			fields: [],
+		},
+		{
+			name: "roles",
+			dataType: DataType.ArrayOfObject,
+			objectName: "Role",
+			fields: [
+				{
+					name: "role_name",
+					dataType: DataType.String,
+					fields: []
+				},
+				{
+					name: "can_create",
+					dataType: DataType.Boolean,
+					fields: []
+				},
+			]
+		}
+	])
+
 	return (
 		<TreeView
 			aria-label="customized"
@@ -86,32 +118,13 @@ export const TreeModel = () => {
 			defaultCollapseIcon={<MinusSquare />}
 			defaultExpandIcon={<PlusSquare />}
 			defaultEndIcon={<CloseSquare />}
-			sx={{ height: 264, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+			sx={{ height: 600, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
 		>
 			<StyledTreeItem nodeId="1" label="Main">
 				<StyledTreeItem
 					nodeId="2"
-					label={<Box display="flex" py={1} gap={1}>
-						<TextField variant='outlined' label="Name" size="small" />
-						<FormControl fullWidth size='small' sx={{padding: 0}} >
-							<InputLabel>Datatype</InputLabel>
-							<Select
-								// value={age}
-								label="Datatype"
-								// size='small'
-								variant='outlined'
-								sx={{
-									fontSize: 13,
-									padding: 0,
-								}}
-							// onChange={handleChange}
-							>
-								<MenuItem value={10}>Number</MenuItem>
-								<MenuItem value={20}>String</MenuItem>
-								<MenuItem value={30}>Boolean</MenuItem>
-							</Select>
-						</FormControl>
-					</Box>} />
+					label={<ModelItem />} />
+
 				<StyledTreeItem nodeId="3" label="Subtree with children">
 					<StyledTreeItem nodeId="6" label="Hello" />
 					<StyledTreeItem nodeId="7" label="Sub-subtree with children">
@@ -123,6 +136,16 @@ export const TreeModel = () => {
 				</StyledTreeItem>
 				<StyledTreeItem nodeId="4" label="World" />
 				<StyledTreeItem nodeId="5" label="Something something" />
+				<StyledTreeItem
+					nodeId="12"
+					label={<ModelItem />} >
+					<StyledTreeItem
+						nodeId="13"
+						label={<ModelItem />} />
+					<StyledTreeItem
+						nodeId="14"
+						label={<ModelItem />} />
+				</StyledTreeItem>
 			</StyledTreeItem>
 		</TreeView>
 	)

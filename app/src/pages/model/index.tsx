@@ -36,17 +36,21 @@ const Model: NextPage = () => {
 	}
 
 	return <ThemeProvider>
-		<Box display="flex" justifyContent="space-between">
-			<Editor
-				width="50%"
-				height="80vh"
-				language="json"
-				value={code}
-				theme="Blackboard"
-				defaultValue=""
-				onChange={(c) => setCode(c ?? "{}")}
-			/>
-			<Box p={2} width="100%">
+		<Box display="flex" justifyContent="space-around">
+			<Box width="40%">
+				<Editor
+					width="100%"
+					height="80vh"
+					language="json"
+					value={code}
+					theme="Blackboard"
+					defaultValue=""
+					onChange={(c) => setCode(c ?? "{}")}
+				/>
+			</Box>
+			<Box p={2} width="20%">
+			</Box>
+			<Box p={2} width="40%">
 				<TreeModel />
 			</Box>
 			{/* <div className=" w-2/4">
