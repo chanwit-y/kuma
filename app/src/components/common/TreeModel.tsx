@@ -3,7 +3,7 @@ import { TreeItem, treeItemClasses, TreeItemProps, TreeView } from '@mui/lab'
 import { alpha, Collapse, styled, SvgIcon, SvgIconProps } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { animated, useSpring } from '@react-spring/web';
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { ModelItem } from './ModelItem';
 
 const MinusSquare = (props: SvgIconProps) => {
@@ -78,38 +78,12 @@ const StyledTreeItem = styled((props: TreeItemProps) => {
 	},
 }));
 
+type Props = {
+	name: string;
+	model: Field[],
+}
 
-
-export const TreeModel = () => {
-	const [model, setModel] = useState<Field[]>([
-		{
-			name: "id",
-			dataType: DataType.Int,
-			fields: [],
-		},
-		{
-			name: "name",
-			dataType: DataType.String,
-			fields: [],
-		},
-		{
-			name: "roles",
-			dataType: DataType.ArrayOfObject,
-			objectName: "Role",
-			fields: [
-				{
-					name: "role_name",
-					dataType: DataType.String,
-					fields: []
-				},
-				{
-					name: "can_create",
-					dataType: DataType.Boolean,
-					fields: []
-				},
-			]
-		}
-	])
+export const TreeModel = memo(({ model, name }: Props) => {
 
 	return (
 		<TreeView
@@ -120,8 +94,24 @@ export const TreeModel = () => {
 			defaultEndIcon={<CloseSquare />}
 			sx={{ height: 600, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
 		>
-			<StyledTreeItem nodeId="1" label="Main">
-				<StyledTreeItem
+			<StyledTreeItem nodeId={`${name}`} label={name}>
+				{
+					model.map((m, i) => {
+						// return m.fields.length > 0
+						// 	? <TreeModel name={m.name} model={m.fields} />
+						// 	// : <StyledTreeItem nodeId={`${name}-${i.toString()}`} label={m.name} />
+						// 	: <StyledTreeItem nodeId={`${i.toString()}`} label={m.name} />
+						console.log(m.fields.length)
+						if (m.fields.length === 0)
+							return <StyledTreeItem nodeId={`${i.toString()}`} label={m.name} />
+						else
+							return <TreeModel name={m.name} model={m.fields} />
+
+					})
+
+
+				}
+				{/* <StyledTreeItem
 					nodeId="2"
 					label={<ModelItem />} />
 
@@ -145,9 +135,9 @@ export const TreeModel = () => {
 					<StyledTreeItem
 						nodeId="14"
 						label={<ModelItem />} />
-				</StyledTreeItem>
+				</StyledTreeItem> */}
 			</StyledTreeItem>
 		</TreeView>
 	)
-}
+})
 

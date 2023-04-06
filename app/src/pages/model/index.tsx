@@ -5,9 +5,40 @@ import dayjs from "dayjs";
 import { Box } from "@mui/material";
 import { TreeModel } from "@/components/common/TreeModel";
 import ThemeProvider from "@/components/context/TheamContext";
+import { DataType, Field } from "@/@types/Model";
 
 const Model: NextPage = () => {
+	const [model, setModel] = useState<Field[]>([
+		{
+			name: "id",
+			dataType: DataType.Int,
+			fields: [],
+		},
+		{
+			name: "name",
+			dataType: DataType.String,
+			fields: [],
+		},
+		{
+			name: "roles",
+			dataType: DataType.ArrayOfObject,
+			objectName: "Role",
+			fields: [
+				{
+					name: "role_name",
+					dataType: DataType.String,
+					fields: []
+				},
+				{
+					name: "can_create",
+					dataType: DataType.Boolean,
+					fields: []
+				},
+			]
+		}
+	])
 	const [code, setCode] = useState('{"data": ""}')
+
 	useEffect(() => {
 		const jsonCode = JSON.parse(code)
 		console.log(jsonCode)
@@ -51,7 +82,7 @@ const Model: NextPage = () => {
 			<Box p={2} width="20%">
 			</Box>
 			<Box p={2} width="40%">
-				<TreeModel />
+				<TreeModel model={model} name="user" />
 			</Box>
 			{/* <div className=" w-2/4">
 			<pre>
