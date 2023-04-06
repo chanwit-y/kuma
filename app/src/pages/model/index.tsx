@@ -1,7 +1,10 @@
 import { NextPage } from "next";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react"
 import dayjs from "dayjs";
+import { Box } from "@mui/material";
+import { TreeModel } from "@/components/common/TreeModel";
+import ThemeProvider from "@/components/context/TheamContext";
 
 const Model: NextPage = () => {
 	const [code, setCode] = useState('{"data": ""}')
@@ -21,33 +24,38 @@ const Model: NextPage = () => {
 		const dayVal = dayjs(v)
 		if (type === "string") {
 			if (!isNaN(Number(v)))
-				return type 
+				return type
 			else if (dayVal.isValid())
 				return "datetime"
 		} else if (type === "object") {
-			
+
 		}
 
 
 		return type;
 	}
 
-	return <div className="flex justify-between">
-		<Editor
-			width="50%"
-			height="80vh"
-			language="json"
-			value={code}
-			theme="Blackboard"
-			defaultValue=""
-			onChange={(c) => setCode(c ?? "{}")}
-		/>
-		<div className="w-full">
+	return <ThemeProvider>
+		<Box display="flex" justifyContent="space-between">
+			<Editor
+				width="50%"
+				height="80vh"
+				language="json"
+				value={code}
+				theme="Blackboard"
+				defaultValue=""
+				onChange={(c) => setCode(c ?? "{}")}
+			/>
+			<Box p={2} width="100%">
+				<TreeModel />
+			</Box>
+			{/* <div className=" w-2/4">
 			<pre>
 				{JSON.stringify(JSON.parse(code), undefined, 2)}
 			</pre>
-		</div>
-	</div>
+			</div> */}
+		</Box>
+	</ThemeProvider>
 }
 
 export default Model;
