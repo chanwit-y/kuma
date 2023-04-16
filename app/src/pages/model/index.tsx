@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import { TreeModel } from "@/components/common/TreeModel";
 import ThemeProvider from "@/components/context/TheamContext";
 import { DataType, Field } from "@/@types/Model";
-import { TableModel } from "@/components/common/TableModel";
+import { TableModel } from "@/components/common/DataTable/TableModel";
 
 const Model: NextPage = () => {
 	const [model, setModel] = useState<Field[]>([
@@ -63,7 +63,7 @@ const Model: NextPage = () => {
 			<Box p={2} width="20%">
 				<TreeModel model={model} name="user" />
 			</Box>
-			<Box width="80%">
+			<Box p={2} width="80%">
 				<TableModel />
 			</Box>
 			{/* <div className=" w-2/4">
