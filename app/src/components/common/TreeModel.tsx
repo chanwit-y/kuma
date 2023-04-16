@@ -1,10 +1,12 @@
 import { DataType, Field } from '@/@types/Model';
 import { TreeItem, treeItemClasses, TreeItemProps, TreeView } from '@mui/lab'
-import { alpha, Collapse, styled, SvgIcon, SvgIconProps } from '@mui/material';
+import { alpha, Box, Collapse, IconButton, styled, SvgIcon, SvgIconProps, Typography } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { animated, useSpring } from '@react-spring/web';
 import React, { memo, useState } from 'react'
 import { ModelItem } from './ModelItem';
+
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const MinusSquare = (props: SvgIconProps) => {
 	return (
@@ -57,14 +59,9 @@ const TransitionComponent = (props: TransitionProps) => {
 	);
 }
 
-// type CustomTreeItem = {
-// 	item?: ReactNode;
-// }
 
 const StyledTreeItem = styled((props: TreeItemProps) => {
-	return <TreeItem {...props} TransitionComponent={TransitionComponent}>
-		{/* {props.item !== undefined ? props.item : props.children !== undefined || props.nodeId === "1" ? props.children : null} */}
-	</TreeItem>
+	return <TreeItem {...props} TransitionComponent={TransitionComponent} />
 })(({ theme }) => ({
 	[`& .${treeItemClasses.iconContainer}`]: {
 		'& .close': {
@@ -78,13 +75,29 @@ const StyledTreeItem = styled((props: TreeItemProps) => {
 	},
 }));
 
+type NodeItemProps = {
+	text: string
+}
+
+// export const NodeItem = ({text}: NodeItemProps) => {
+// 	return <Box p={1} display="flex" justifyContent="space-between" alignItems="center" gap={1}>
+// 		<Box>
+// 			<Typography>{text}</Typography>
+// 		</Box>
+// 		<Box>
+// 			<IconButton size='small'>
+// 				<AddCircleIcon fontSize='small' />
+// 			</IconButton>
+// 		</Box>
+// 	</Box>
+// }
+
 type Props = {
 	name: string;
 	model: Field[],
 }
 
 export const TreeModel = memo(({ model, name }: Props) => {
-
 	return (
 		<TreeView
 			aria-label="customized"
@@ -97,45 +110,13 @@ export const TreeModel = memo(({ model, name }: Props) => {
 			<StyledTreeItem nodeId={`${name}`} label={name}>
 				{
 					model.map((m, i) => {
-						// return m.fields.length > 0
-						// 	? <TreeModel name={m.name} model={m.fields} />
-						// 	// : <StyledTreeItem nodeId={`${name}-${i.toString()}`} label={m.name} />
-						// 	: <StyledTreeItem nodeId={`${i.toString()}`} label={m.name} />
-						console.log(m.fields.length)
-						if (m.fields.length === 0)
+						if (m.fields.length === 0) 
 							return <StyledTreeItem nodeId={`${i.toString()}`} label={m.name} />
 						else
 							return <TreeModel name={m.name} model={m.fields} />
-
 					})
-
-
+					
 				}
-				{/* <StyledTreeItem
-					nodeId="2"
-					label={<ModelItem />} />
-
-				<StyledTreeItem nodeId="3" label="Subtree with children">
-					<StyledTreeItem nodeId="6" label="Hello" />
-					<StyledTreeItem nodeId="7" label="Sub-subtree with children">
-						<StyledTreeItem nodeId="9" label="Child 1" />
-						<StyledTreeItem nodeId="10" label="Child 2" />
-						<StyledTreeItem nodeId="11" label="Child 3" />
-					</StyledTreeItem>
-					<StyledTreeItem nodeId="8" label="Hello" />
-				</StyledTreeItem>
-				<StyledTreeItem nodeId="4" label="World" />
-				<StyledTreeItem nodeId="5" label="Something something" />
-				<StyledTreeItem
-					nodeId="12"
-					label={<ModelItem />} >
-					<StyledTreeItem
-						nodeId="13"
-						label={<ModelItem />} />
-					<StyledTreeItem
-						nodeId="14"
-						label={<ModelItem />} />
-				</StyledTreeItem> */}
 			</StyledTreeItem>
 		</TreeView>
 	)

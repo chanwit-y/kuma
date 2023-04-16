@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import { TreeModel } from "@/components/common/TreeModel";
 import ThemeProvider from "@/components/context/TheamContext";
 import { DataType, Field } from "@/@types/Model";
+import { TableModel } from "@/components/common/TableModel";
 
 const Model: NextPage = () => {
 	const [model, setModel] = useState<Field[]>([
@@ -37,18 +38,8 @@ const Model: NextPage = () => {
 			]
 		}
 	])
-	const [code, setCode] = useState('{"data": ""}')
 
-	useEffect(() => {
-		const jsonCode = JSON.parse(code)
-		console.log(jsonCode)
-
-		Object.entries(jsonCode).map(([k, v]) => {
-			console.log(v, getDataType(v as string))
-		})
-
-
-	}, [code])
+	
 
 	const getDataType = (v: string) => {
 		const type = typeof v;
@@ -68,21 +59,12 @@ const Model: NextPage = () => {
 
 	return <ThemeProvider>
 		<Box display="flex" justifyContent="space-around">
-			<Box width="40%">
-				<Editor
-					width="100%"
-					height="80vh"
-					language="json"
-					value={code}
-					theme="Blackboard"
-					defaultValue=""
-					onChange={(c) => setCode(c ?? "{}")}
-				/>
-			</Box>
+			
 			<Box p={2} width="20%">
-			</Box>
-			<Box p={2} width="40%">
 				<TreeModel model={model} name="user" />
+			</Box>
+			<Box width="80%">
+				<TableModel />
 			</Box>
 			{/* <div className=" w-2/4">
 			<pre>
