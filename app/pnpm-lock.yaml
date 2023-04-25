@@ -4,7 +4,9 @@ specifiers:
   '@emotion/react': ^11.10.6
   '@emotion/styled': ^11.10.6
   '@mui/icons-material': ^5.11.16
+  '@mui/lab': 5.0.0-alpha.127
   '@mui/material': ^5.12.1
+  '@react-spring/web': ^9.7.2
   '@tauri-apps/api': ^1.2.0
   '@tauri-apps/cli': ^1.2.3
   '@types/node': ^18.7.10
@@ -20,7 +22,9 @@ dependencies:
   '@emotion/react': 11.10.6_24ukasupqqblpyncii3ycicuiu
   '@emotion/styled': 11.10.6_ymduhmyhfisotm3njv6u3c3lva
   '@mui/icons-material': 5.11.16_evv3re3xuh5fdswgn2achfnnnq
+  '@mui/lab': 5.0.0-alpha.127_dr2x4dsxepcmwolcozkhojdg2m
   '@mui/material': 5.12.1_nvsgjbp4mah6gsuo4zrv73sale
+  '@react-spring/web': 9.7.2_biqbaboplfbrettd7655fr4n2y
   '@tauri-apps/api': 1.2.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -658,6 +662,40 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@mui/lab/5.0.0-alpha.127_dr2x4dsxepcmwolcozkhojdg2m:
+    resolution: {integrity: sha512-D+Q7MV06rn31g8ZgNcLxgsmh94PJYfyqXAcM3BokgMJ4u89QfwneSlaoHnQ9qitvWFyTz7Ic4HVMNT08FkRG7Q==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@emotion/react': ^11.5.0
+      '@emotion/styled': ^11.3.0
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/react':
+        optional: true
+      '@emotion/styled':
+        optional: true
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@emotion/react': 11.10.6_24ukasupqqblpyncii3ycicuiu
+      '@emotion/styled': 11.10.6_ymduhmyhfisotm3njv6u3c3lva
+      '@mui/base': 5.0.0-alpha.126_jf7puk66b2eiqxne3oe3xlxkou
+      '@mui/material': 5.12.1_nvsgjbp4mah6gsuo4zrv73sale
+      '@mui/system': 5.12.1_6daroft24xkhufd6cavg27mdii
+      '@mui/types': 7.2.4_@types+react@18.0.37
+      '@mui/utils': 5.12.0_react@18.2.0
+      '@types/react': 18.0.37
+      clsx: 1.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-is: 18.2.0
+    dev: false
+
   /@mui/material/5.12.1_nvsgjbp4mah6gsuo4zrv73sale:
     resolution: {integrity: sha512-m+G9J6+FzIMhRqKV2y30yONH97wX107z9EWgiNCeS1/+y1CnytFZNG1ENdOuaJo1NimCRnmB/iXPvoOaSo6dOg==}
     engines: {node: '>=12.0.0'}
@@ -790,6 +828,60 @@ packages:
 
   /@popperjs/core/2.11.7:
     resolution: {integrity: sha512-Cr4OjIkipTtcXKjAsm8agyleBuDHvxzeBoa1v543lbv1YaIwQjESsVcmjiWiPEbC1FIeHOG/Op9kdCmAmiS3Kw==}
+    dev: false
+
+  /@react-spring/animated/9.7.2_react@18.2.0:
+    resolution: {integrity: sha512-ipvleJ99ipqlnHkz5qhSsgf/ny5aW0ZG8Q+/2Oj9cI7LCc7COdnrSO6V/v8MAX3JOoQNzfz6dye2s5Pt5jGaIA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/shared': 9.7.2_react@18.2.0
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+    dev: false
+
+  /@react-spring/core/9.7.2_react@18.2.0:
+    resolution: {integrity: sha512-fF512edZT/gKVCA90ZRxfw1DmELeVwiL4OC2J6bMUlNr707C0h4QRoec6DjzG27uLX2MvS1CEatf9KRjwZR9/w==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/animated': 9.7.2_react@18.2.0
+      '@react-spring/rafz': 9.7.2
+      '@react-spring/shared': 9.7.2_react@18.2.0
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+    dev: false
+
+  /@react-spring/rafz/9.7.2:
+    resolution: {integrity: sha512-kDWMYDQto3+flkrX3vy6DU/l9pxQ4TVW91DglQEc11iDc7shF4+WVDRJvOVLX+xoMP7zyag1dMvlIgvQ+dvA/A==}
+    dev: false
+
+  /@react-spring/shared/9.7.2_react@18.2.0:
+    resolution: {integrity: sha512-6U9qkno+9DxlH5nSltnPs+kU6tYKf0bPLURX2te13aGel8YqgcpFYp5Av8DcN2x3sukinAsmzHUS/FRsdZMMBA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/rafz': 9.7.2
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+    dev: false
+
+  /@react-spring/types/9.7.2:
+    resolution: {integrity: sha512-GEflx2Ex/TKVMHq5g5MxQDNNPNhqg+4Db9m7+vGTm8ttZiyga7YQUF24shgRNebKIjahqCuei16SZga8h1pe4g==}
+    dev: false
+
+  /@react-spring/web/9.7.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-7qNc7/5KShu2D05x7o2Ols2nUE7mCKfKLaY2Ix70xPMfTle1sZisoQMBFgV9w/fSLZlHZHV9P0uWJqEXQnbV4Q==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/animated': 9.7.2_react@18.2.0
+      '@react-spring/core': 9.7.2_react@18.2.0
+      '@react-spring/shared': 9.7.2_react@18.2.0
+      '@react-spring/types': 9.7.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@tauri-apps/api/1.2.0:
