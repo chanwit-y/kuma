@@ -1,12 +1,10 @@
-import { DataType, Field } from '@/@types/Model';
+import {  Field } from '@/@types/Model';
 import { TreeItem, treeItemClasses, TreeItemProps, TreeView } from '@mui/lab'
-import { alpha, Box, Collapse, IconButton, styled, SvgIcon, SvgIconProps, Typography } from '@mui/material';
+import { alpha, Collapse, styled, SvgIcon, SvgIconProps } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { animated, useSpring } from '@react-spring/web';
-import React, { memo, useState } from 'react'
-import { ModelItem } from './ModelItem';
+import React, { memo } from 'react'
 
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const MinusSquare = (props: SvgIconProps) => {
 	return (
@@ -75,9 +73,9 @@ const StyledTreeItem = styled((props: TreeItemProps) => {
 	},
 }));
 
-type NodeItemProps = {
-	text: string
-}
+// type NodeItemProps = {
+// 	text: string
+// }
 
 // export const NodeItem = ({text}: NodeItemProps) => {
 // 	return <Box p={1} display="flex" justifyContent="space-between" alignItems="center" gap={1}>
