@@ -7,11 +7,13 @@ specifiers:
   '@mui/material': ^5.12.3
   '@tauri-apps/api': ^1.2.0
   '@tauri-apps/cli': ^1.2.3
+  '@types/lodash': ^4.14.194
   '@types/node': 18.16.1
   '@types/react': 18.2.0
   '@types/react-dom': 18.2.1
   child_process: ^1.0.2
   firebase: ^9.21.0
+  lodash: ^4.17.21
   next: 13.3.1
   react: 18.2.0
   react-dom: 18.2.0
@@ -29,6 +31,7 @@ dependencies:
   '@types/react-dom': 18.2.1
   child_process: 1.0.2
   firebase: 9.21.0
+  lodash: 4.17.21
   next: 13.3.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -37,6 +40,7 @@ dependencies:
 
 devDependencies:
   '@tauri-apps/cli': 1.2.3
+  '@types/lodash': 4.14.194
 
 packages:
 
@@ -1150,6 +1154,10 @@ packages:
       '@tauri-apps/cli-win32-x64-msvc': 1.2.3
     dev: true
 
+  /@types/lodash/4.14.194:
+    resolution: {integrity: sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==}
+    dev: true
+
   /@types/long/4.0.2:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
     dev: false
@@ -1480,6 +1488,10 @@ packages:
 
   /lodash.camelcase/4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
+    dev: false
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
 
   /long/4.0.0:
