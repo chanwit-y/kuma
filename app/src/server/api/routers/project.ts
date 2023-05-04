@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { createProject } from "../service/project";
 
 export const projectRouter = createTRPCRouter({
   createProject: publicProcedure
@@ -10,8 +11,9 @@ export const projectRouter = createTRPCRouter({
         description: z.string(),
       })
     )
-    .mutation(({ input }) => {
+    .mutation(async ({ input }) => {
       console.log(input);
+      await createProject(input);
       return {};
     }),
 });
