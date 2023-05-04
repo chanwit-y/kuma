@@ -1,16 +1,10 @@
+import { ProjectContainer } from "@/components/container/project";
 import { GetServerSideProps, NextPage } from "next";
-import ProjectProvider from "./Context";
-import { List } from "./List";
-import { Toolbar } from "./Toolbar";
 
 type Props = {}
 
-const Project: NextPage<Props> = ({}: Props) => {
-
-  return (<ProjectProvider>
-    <Toolbar />
-    <List />
-  </ProjectProvider>)
+const Project: NextPage<Props> = ({ }: Props) => {
+  return (<ProjectContainer />)
 }
 
 export default Project;
