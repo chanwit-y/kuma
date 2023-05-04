@@ -1,6 +1,7 @@
+import { createContext, ReactNode, useCallback, useContext } from "react";
+import { invoke } from "@tauri-apps/api/tauri"
 import { Project } from "@/@types";
 import { api } from "@/util/api";
-import { createContext, ReactNode, useCallback, useContext, useEffect } from "react";
 
 type ProjectContextType = {
 	createProject: (data: Project) => Promise<void>;
@@ -13,18 +14,15 @@ type Props = {
 	children: ReactNode;
 };
 const ProjectProvider = ({ children }: Props) => {
-	// const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
-	// useEffect(() => {
-	// 	console.log(hello.data)
-	// }, [hello])
-
 	const project = api.project.createProject.useMutation();
 
 	const createProject = useCallback(async (data: Project) => {
 		project
 			.mutate(data, {
 				onSuccess: (res) => {
+					invoke('go_mod_init')
+						.then(console.log)
+						.catch(console.error)
 					console.log(res);
 				},
 				onError: (e) => {
