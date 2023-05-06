@@ -22,7 +22,7 @@ const ProjectProvider = ({ children }: Props) => {
 		project
 			.mutate(data, {
 				onSuccess: (res) => {
-					invoke('go_mod_init')
+					invoke('go_mod_init', { name: data.name })
 						.then(console.log)
 						.catch(console.error)
 					console.log(res);
