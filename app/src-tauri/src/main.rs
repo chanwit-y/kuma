@@ -3,6 +3,10 @@
     windows_subsystem = "windows"
 )]
 
+
+
+pub mod file;
+
 use std::process::Command;
 
 fn main() {
