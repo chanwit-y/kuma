@@ -1,11 +1,18 @@
+import { Box } from "@mui/material";
 import Link from "next/link";
+
 
 
 export default function Home() {
 
   return (
-    <Link href="project">
-      project
-    </Link>
+    <Box display="flex" flexDirection="column">
+      <Link href="project">
+        project
+      </Link>
+      <Link href="entity">
+        entity
+      </Link>
+    </Box>
   )
 }

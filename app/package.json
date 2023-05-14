@@ -32,6 +32,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
+    "reactflow": "^11.7.0",
     "redis": "^4.6.6",
     "superjson": "^1.12.3",
     "typescript": "5.0.4",
