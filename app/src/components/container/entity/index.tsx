@@ -16,8 +16,36 @@ export const EntityContainer = memo(() => {
 				'handle-0': 'smoothstep',
 				'handle-1': 'smoothstep',
 			},
+			table: {
+				name: "Product",
+				columns: [{
+
+				}, {
+
+				}],
+			},
 		},
-	}]);
+	},
+	{
+		id: '5',
+		type: 'custom',
+		position: { x: 300, y: 300 },
+		data: {
+			selects: {
+				'handle-0': 'smoothstep',
+				'handle-1': 'smoothstep',
+			},
+			table: {
+				name: "UOM",
+				columns: [{
+
+				}, {
+
+				}],
+			},
+		},
+	}
+	]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 	const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
 
@@ -41,7 +69,7 @@ export const EntityContainer = memo(() => {
 			>
 				{/* <MiniMap style={minimapStyle} zoomable pannable /> */}
 				<Controls />
-				<Background color="#aaa" gap={16} />
+				<Background color="#aaa" gap={10} />
 			</ReactFlow>
 		</ReactFlowProvider>
 	)

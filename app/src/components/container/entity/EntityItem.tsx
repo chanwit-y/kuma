@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React, { memo } from 'react'
 import { Handle, HandleType, Position } from 'reactflow';
 
@@ -8,9 +9,11 @@ type Props = {
 
 export const EntityItem = memo(({ type, handleId }: Props) => {
 	return (
-		<div>
-			{handleId}
+		<Box position='relative'>
+			<Box py={.5}>
+				{handleId}
+			</Box>
 			<Handle type={type} position={Position.Right} id={handleId} />
-		</div>
+		</Box>
 	)
 })
