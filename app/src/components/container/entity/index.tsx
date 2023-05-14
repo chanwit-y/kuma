@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import { EntityNode } from './EntityNode';
-import ReactFlow, { Background, Controls, ReactFlowProvider, addEdge, useEdgesState, useNodesState } from 'reactflow';
+import ReactFlow, { Background, Controls, MarkerType, ReactFlowProvider, addEdge, useEdgesState, useNodesState } from 'reactflow';
 
 
 export const EntityContainer = memo(() => {
@@ -12,16 +12,20 @@ export const EntityContainer = memo(() => {
 		type: 'custom',
 		position: { x: 100, y: 200 },
 		data: {
-			selects: {
-				'handle-0': 'smoothstep',
-				'handle-1': 'smoothstep',
-			},
+			// selects: {
+			// 	'handle-0': 'smoothstep',
+			// 	'handle-1': 'smoothstep',
+			// },
 			table: {
 				name: "Product",
 				columns: [{
-
+					name: 'id',
+					isPK: true,
+					isFK: false,
 				}, {
-
+					name: 'name',
+					isPK: false,
+					isFK: false,
 				}],
 			},
 		},
@@ -31,22 +35,44 @@ export const EntityContainer = memo(() => {
 		type: 'custom',
 		position: { x: 300, y: 300 },
 		data: {
-			selects: {
-				'handle-0': 'smoothstep',
-				'handle-1': 'smoothstep',
-			},
+			// selects: {
+			// 	'handle-0': 'smoothstep',
+			// 	'handle-1': 'smoothstep',
+			// },
 			table: {
 				name: "UOM",
 				columns: [{
-
+					name: 'id',
+					isPK: true,
+					isFK: false,
 				}, {
-
+					name: 'productId',
+					isPK: false,
+					isFK: true,
+				}
+					, {
+					name: 'name',
+					isPK: false,
+					isFK: false,
 				}],
 			},
 		},
 	}
 	]);
-	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+	const [edges, setEdges, onEdgesChange] = useEdgesState([{
+		id: 'e4-5',
+		source: '4',
+		target: '5',
+		type: 'smoothstep',
+		sourceHandle: 'id',
+		targetHandle: 'productId	',
+		data: {
+			selectIndex: 0,
+		},
+		markerEnd: {
+			type: MarkerType.ArrowClosed,
+		},
+	}]);
 	const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
 
 	const nodeTypes = {
@@ -59,6 +85,7 @@ export const EntityContainer = memo(() => {
 			<ReactFlow
 				nodes={nodes}
 				// edges={edgesWithUpdatedTypes}
+				edges={edges}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				onConnect={onConnect}

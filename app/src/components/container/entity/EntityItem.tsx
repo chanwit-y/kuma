@@ -1,19 +1,30 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React, { memo } from 'react'
-import { Handle, HandleType, Position } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 
 type Props = {
-	type: HandleType;
+	// type: HandleType;
 	handleId?: string;
+	column: any;
 }
 
-export const EntityItem = memo(({ type, handleId }: Props) => {
+export const EntityItem = memo(({ handleId, column }: Props) => {
 	return (
 		<Box position='relative'>
-			<Box py={.5}>
-				{handleId}
+			<Box py={.5} pl={1}>
+				<Typography fontSize={8}>
+					{column.name}
+				</Typography>
 			</Box>
-			<Handle type={type} position={Position.Right} id={handleId} />
+			{
+				(column.isPK || column.isFK) ? (
+					<Handle
+						id={handleId}
+						type={column.isPK ? 'source' : 'target'}
+						position={column.isPK ? Position.Right : Position.Left}
+					/>
+				) : null
+			}
 		</Box>
 	)
 })

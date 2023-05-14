@@ -23,7 +23,7 @@ export const EntityNode = memo(({ id, data }: Props) => {
       <Divider />
       <Box >
         {data.table.columns.map((c: any) => <>
-          <EntityItem type='source' handleId={id} />
+          <EntityItem  handleId={c.name} column={c} />
           <Divider />
         </>)}
         {/* {JSON.stringify(data.table, undefined, 2)}
