@@ -63,7 +63,8 @@ export const EntityContainer = memo(() => {
 		id: 'e4-5',
 		source: '4',
 		target: '5',
-		type: 'smoothstep',
+		// type: 'smoothstep',
+		type: 'step',
 		sourceHandle: 'id',
 		targetHandle: 'productId	',
 		data: {
