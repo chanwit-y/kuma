@@ -22,10 +22,12 @@ export const EntityContainer = memo(() => {
 					name: 'id',
 					isPK: true,
 					isFK: false,
+					dataType: 'int',
 				}, {
 					name: 'name',
 					isPK: false,
 					isFK: false,
+					dataType: 'nvarchar',
 				}],
 			},
 		},
@@ -45,15 +47,18 @@ export const EntityContainer = memo(() => {
 					name: 'id',
 					isPK: true,
 					isFK: false,
+					dataType: 'int',
 				}, {
 					name: 'productId',
 					isPK: false,
 					isFK: true,
+					dataType: 'int',
 				}
 					, {
 					name: 'name',
 					isPK: false,
 					isFK: false,
+					dataType: 'nvarchar',
 				}],
 			},
 		},
