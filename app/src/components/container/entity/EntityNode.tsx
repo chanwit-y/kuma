@@ -33,7 +33,7 @@ export const EntityNode = memo(({ id, data }: Props) => {
         </Box>
       </Box>
       <Divider />
-      <Box >
+      <Box py={.5} >
         {data.table.columns.map((c: any) => <>
           <EntityItem handleId={c.name} column={c} />
 
