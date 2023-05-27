@@ -1,10 +1,11 @@
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, IconButton, Popover, Typography } from '@mui/material';
 import { blue, grey, red } from '@mui/material/colors';
-import React, { memo, useEffect } from 'react'
+import React, { memo, useState, MouseEvent } from 'react'
 import { Handle, Position } from 'reactflow';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { ColumnInfo } from './ColumnInfo';
 
 type Props = {
 	// type: HandleType;
@@ -13,11 +14,25 @@ type Props = {
 }
 
 export const EntityItem = memo(({ handleId, column }: Props) => {
-	useEffect(() => {
-		console.log(column)
-	}, [column]);
+	const [isHighlight, setHighlight] = useState(false)
+	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+		setAnchorEl(event.currentTarget)
+		setHighlight(true);
+	}
+	const handleClose = () => {
+		setHighlight(false);
+		setAnchorEl(null)
+	}
+
+	const open = Boolean(anchorEl);
+	const id = open ? 'edit-column-popover' : undefined;
+
 	return (
-		<Box position='relative'>
+		<Box
+			position='relative'
+			bgcolor={isHighlight ? blue[50] : undefined}
+			sx={{ transition: "background-color 0.5s ease" }}>
 			<Box
 				display="flex"
 				justifyContent="space-between"
@@ -35,22 +50,40 @@ export const EntityItem = memo(({ handleId, column }: Props) => {
 					<Typography mx={.5} fontSize={8} color={blue[900]} fontWeight='bold' letterSpacing={.4}>
 						{`${column.dataType}`}
 					</Typography>
-					{column.length && (<Box 
-					// component='span'
-					px={.3}
-					// py={.1}
-					borderRadius={1}
-					bgcolor={blue[100]}
-					fontSize={6} 
-					fontWeight='bold'
-					alignSelf="center" 
-					letterSpacing={.4}>
+					{column.length && (<Box
+						// component='span'
+						px={.3}
+						// py={.1}
+						borderRadius={1}
+						bgcolor={blue[100]}
+						fontSize={6}
+						fontWeight='bold'
+						alignSelf="center"
+						letterSpacing={.4}>
 						{column.length}
 					</Box>)}
 
 				</Box>
-				<Box>
-					<MoreVertIcon sx={{ fontSize: 7 }} />
+				<Box  >
+					<IconButton aria-label="edit" size='small' onClick={handleClick}>
+						<MoreVertIcon sx={{ fontSize: 7 }} />
+					</IconButton>
+					<Popover
+						id={id}
+						open={open}
+						anchorEl={anchorEl}
+						onClose={handleClose}
+						anchorOrigin={{
+							vertical: 'center',
+							horizontal: 'right',
+						}}
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'left',
+						}}
+					>
+						<ColumnInfo />
+					</Popover>
 				</Box>
 			</Box>
 			{

@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 
 
 const EntityContainer = dynamic(() => import('@/components/container/entity').then((module) => module.EntityContainer), {
-	ssr: false, // Disable SSR and use CSR
+	ssr: true, // Disable SSR and use CSR
       });
 
 type Props = {}

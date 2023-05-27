@@ -3,6 +3,10 @@ import { EntityNode } from './EntityNode';
 import ReactFlow, { Background, Controls, MarkerType, ReactFlowProvider, addEdge, useEdgesState, useNodesState } from 'reactflow';
 
 
+const nodeTypes = {
+	custom: EntityNode,
+};
+
 export const EntityContainer = memo(() => {
 	const onInit = (reactFlowInstance: any) => console.log('flow loaded:', reactFlowInstance);
 
@@ -23,7 +27,7 @@ export const EntityContainer = memo(() => {
 					isPK: true,
 					isFK: false,
 					dataType: 'int',
-				}, 
+				},
 				{
 					name: 'code',
 					isPK: false,
@@ -38,7 +42,7 @@ export const EntityContainer = memo(() => {
 					dataType: 'nvarchar',
 					length: 100,
 				},
-			],
+				],
 			},
 		},
 	},
@@ -92,9 +96,6 @@ export const EntityContainer = memo(() => {
 	}]);
 	const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
 
-	const nodeTypes = {
-		custom: EntityNode,
-	};
 
 
 	return (
