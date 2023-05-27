@@ -10,23 +10,26 @@ export const ColumnInfo = () => {
 	};
 
 	return (
-		<Box p={2} display='flex' flexDirection='column' minWidth={250} >
+		<Box p={2} display='flex' flexDirection='column' minWidth={320} >
 			<TextField label="Name" variant="outlined" size="small" sx={{ my: 1.5 }} />
-			<FormControl size="small">
-				<InputLabel >Data type</InputLabel>
-				<Select
-					value={age}
-					label="Data type"
-					onChange={handleChange}
-				>
-					<MenuItem value="">
-						<em>None</em>
-					</MenuItem>
-					<MenuItem value={10}>Ten</MenuItem>
-					<MenuItem value={20}>Twenty</MenuItem>
-					<MenuItem value={30}>Thirty</MenuItem>
-				</Select>
-			</FormControl>
+			<Box display='flex' mb={1} justifyContent="space-between" gap={1}>
+				<FormControl size="small" sx={{ width: "70%"}}>
+					<InputLabel >Data type</InputLabel>
+					<Select
+						value={age}
+						label="Data type"
+						onChange={handleChange}
+					>
+						<MenuItem value="">
+							<em>None</em>
+						</MenuItem>
+						<MenuItem value={10}>Ten</MenuItem>
+						<MenuItem value={20}>Twenty</MenuItem>
+						<MenuItem value={30}>Thirty</MenuItem>
+					</Select>
+				</FormControl>
+				<TextField label="Len" variant="outlined" size="small" sx={{ width: "30%"}}  />
+			</Box>
 			<FormControlLabel
 				value="PK"
 				control={<Checkbox size="small" />}
@@ -40,7 +43,7 @@ export const ColumnInfo = () => {
 				labelPlacement="end"
 			/>
 			<Box display='flex' mb={1} justifyContent="space-between" gap={1}>
-				<FormControl size="small" sx={{minWidth: '50%'}}>
+				<FormControl size="small" sx={{ minWidth: '50%' }}>
 					<InputLabel >Table</InputLabel>
 					<Select
 						value={age}
@@ -55,7 +58,7 @@ export const ColumnInfo = () => {
 						<MenuItem value={30}>Thirty</MenuItem>
 					</Select>
 				</FormControl>
-				<FormControl size="small" sx={{minWidth: '45%'}}>
+				<FormControl size="small" sx={{ minWidth: '45%' }}>
 					<InputLabel >Column</InputLabel>
 					<Select
 						value={age}

@@ -1,10 +1,12 @@
 import React, { memo, useEffect, useState, MouseEvent } from 'react'
 import { EntityItem } from './EntityItem'
-import { Box, Divider, IconButton, Popover, Typography } from '@mui/material'
-import { blue, grey } from '@mui/material/colors'
+import { Box, Divider, IconButton, InputBase, Popover, TextField, Typography } from '@mui/material'
+import { blue, green, grey, red } from '@mui/material/colors'
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { ColumnInfo } from './ColumnInfo';
 
 type Props = {
@@ -13,9 +15,10 @@ type Props = {
 }
 
 export const EntityNode = memo(({ data }: Props) => {
-
+  const [isRename, setIsRename] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleRename = () => setIsRename(true)
+  const handleAddColumn = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
@@ -37,12 +40,47 @@ export const EntityNode = memo(({ data }: Props) => {
         alignItems='center'
         bgcolor={blue[100]}
         sx={{ borderTopLeftRadius: 2, borderTopRightRadius: 2, }}>
-        <Typography variant='subtitle1' letterSpacing={.5} p={.5} fontSize={8} fontWeight='bold'>{d.table.name}</Typography>
+        {
+          isRename
+            ? <Box
+              display="flex"
+              gap={.2}
+              sx={{
+                py: .1,
+                px: .5,
+                m: .4,
+                borderRadius: .5,
+                bgcolor: blue[50],
+                // transition: "opacity 0.5s ease"
+              }}>
+              <InputBase
+                value={d.table.name}
+                sx={{
+                  borderRadius: .5,
+                  bgcolor: blue[50],
+                  fontSize: 7,
+                }} />
+              <IconButton size='small' sx={{ p: .5 }}  >
+                <CheckIcon sx={{ fontSize: 9, color: green["A700"] }} />
+              </IconButton>
+              <IconButton size='small' sx={{ p: .5 }} onClick={() => setIsRename(false)}  >
+                <CloseIcon sx={{ fontSize: 9, color: red["A700"] }} />
+              </IconButton>
+            </Box>
+            : <Typography variant='subtitle1' letterSpacing={.5} p={.5} fontSize={8} fontWeight='bold'>
+              {d.table.name}
+            </Typography>
+        }
+
         <Box display='flex' mr={.5} gap={.5}>
-          <IconButton  size='small' sx={{p: 0, mx:.1}} >
-            <BorderColorIcon sx={{ fontSize: 8, color: grey[700] }} />
-          </IconButton>
-          <IconButton  size='small' sx={{p: 0, mx:.1}} onClick={handleClick} >
+
+          {
+            !isRename && <IconButton size='small' sx={{ p: 0, mx: .1 }} onClick={handleRename} >
+              <BorderColorIcon sx={{ fontSize: 8, color: grey[700] }} />
+            </IconButton>
+          }
+
+          <IconButton size='small' sx={{ p: 0, mx: .1 }} onClick={handleAddColumn} >
             <AddCircleIcon sx={{ fontSize: 8, color: grey[700] }} />
           </IconButton>
           <Popover
