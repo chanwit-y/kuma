@@ -34,6 +34,7 @@ export const EntityNode = memo(({ data }: Props) => {
   return (
     // <Box p={1} width={120} height="auto" bgcolor="white">
     <Box >
+      
       <Box
         display='flex'
         justifyContent='space-between'
