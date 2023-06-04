@@ -9,7 +9,7 @@ import {
   useMemo,
   ReactNode,
 } from "react";
-import { InputProps, TextField as MuiTextField } from "@mui/material";
+import { InputProps, TextField as MuiTextField, TextFieldProps } from "@mui/material";
 import { Control, Controller, FieldError, FieldValues } from "react-hook-form";
 import { isEmpty } from "lodash";
 import { withValidate } from "../withValidate";
@@ -52,7 +52,7 @@ type Props = {
   hidden?: boolean;
 };
 
-const TextFieldFC: FC<Props> = ({
+const TextFieldFC: FC<Props & TextFieldProps> = ({
   name,
   type,
   value = undefined,
@@ -77,6 +77,8 @@ const TextFieldFC: FC<Props> = ({
   inputRef,
 
   hidden = false,
+  label,
+  sx
 }) => {
   const [regExpPanttern, setRegExpPanttern] = useState<RegExp>();
   const [textValue, setTextValue] = useState<unknown>("");
@@ -137,6 +139,7 @@ const TextFieldFC: FC<Props> = ({
           <MuiTextField
             name={name}
             type={type}
+            label={label}
             placeholder={placeholder}
             fullWidth={fullWidth}
             variant={variant}
@@ -165,6 +168,7 @@ const TextFieldFC: FC<Props> = ({
             helperText={showMessageError && error?.message}
             sx={{
               display: hidden ? "none" : undefined,
+              ...sx
             }}
           />
         </>

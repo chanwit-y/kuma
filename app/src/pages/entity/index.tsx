@@ -22,3 +22,5 @@ const Entity: NextPage<Props> = ({ }: Props) => {
 export default Entity;
 
 
+
+

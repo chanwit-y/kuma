@@ -1,6 +1,9 @@
 import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext } from "react";
 import { NodeChange, useNodesState } from "reactflow";
+import { FormProvider, useForm } from "react-hook-form";
+import { FormSetting } from "@/components/form/FormSetting";
+import { schema } from "./Form.schema";
 
 
 type OnChange<ChangesType> = (changes: ChangesType[]) => void;
@@ -119,16 +122,24 @@ const EntityProvider = ({ children }: Props) => {
 		}]))
 	}, [])
 
+	const formSetting = useForm(FormSetting.getDefaultForm(schema));
+
 	return (
-		<EntityContext.Provider value={{ 
-			nodes, 
-			setNodes, 
-			onNodesChange, 
-			edges, 
-			setEdges, 
+		<EntityContext.Provider value={{
+			nodes,
+			setNodes,
+			onNodesChange,
+			edges,
+			setEdges,
 			onEdgesChange,
 			addEntity,
-		 }}>{children}</EntityContext.Provider>
+		}}>
+			<FormProvider {...formSetting} >
+				{children}
+			</FormProvider>
+		</EntityContext.Provider>
+
+
 	);
 };
 
