@@ -1,12 +1,18 @@
 import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
 import { NodeChange, useNodesState } from "reactflow";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSetting } from "@/components/form/FormSetting";
 import { schema } from "./Form.schema";
+import { maxBy } from "lodash";
 
 
 type OnChange<ChangesType> = (changes: ChangesType[]) => void;
+type Relation = {
+	table: string,
+	column: string,
+};
+
 type EntityContextType = {
 	nodes: Node[],
 	setNodes: Dispatch<SetStateAction<Node[]>>,
@@ -15,6 +21,8 @@ type EntityContextType = {
 	setEdges: Dispatch<SetStateAction<Edge[]>>,
 	onEdgesChange: OnChange<EdgeChange>,
 	addEntity: () => void,
+	relations: Relation[],
+	setRelations: Dispatch<SetStateAction<Relation[]>>,
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
@@ -109,20 +117,23 @@ const EntityProvider = ({ children }: Props) => {
 	}]);
 
 	const addEntity = useCallback(() => {
+		const id = Number(maxBy(nodes, 'id')?.id) + 1; 
 		setNodes((perv) => ([...perv, {
-			id: '6',
+			id: id.toString(),
 			type: 'custom',
-			position: { x: 300, y: 300 },
+			position: { x: 100, y: 100 },
 			data: {
 				table: {
-					name: "UOM",
+					name: "[Table Name]",
 					columns: [],
 				}
 			}
 		}]))
-	}, [])
+	}, [nodes])
 
 	const formSetting = useForm(FormSetting.getDefaultForm(schema));
+
+	const [relations, setRelations] = useState<Relation[]>([]);
 
 	return (
 		<EntityContext.Provider value={{
@@ -133,6 +144,8 @@ const EntityProvider = ({ children }: Props) => {
 			setEdges,
 			onEdgesChange,
 			addEntity,
+			relations,
+			setRelations
 		}}>
 			<FormProvider {...formSetting} >
 				{children}

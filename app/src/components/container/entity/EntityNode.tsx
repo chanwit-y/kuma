@@ -1,13 +1,15 @@
 import React, { memo, useEffect, useState, MouseEvent } from 'react'
 import { EntityItem } from './EntityItem'
 import { Box, Divider, IconButton, InputBase, Popover, TextField, Typography } from '@mui/material'
-import { blue, green, grey, red } from '@mui/material/colors'
+import { blue, green, grey, purple, red, yellow } from '@mui/material/colors'
+
+import { ColumnInfo } from './ColumnInfo';
 
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { ColumnInfo } from './ColumnInfo';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type Props = {
   id?: string,
@@ -28,11 +30,9 @@ export const EntityNode = memo(({ data }: Props) => {
   const open = Boolean(anchorEl);
   const id = open ? 'edit-column-popover' : undefined;
 
-  const [d, setD] = useState(data);
-
+  const [d] = useState(data);
 
   return (
-    // <Box p={1} width={120} height="auto" bgcolor="white">
     <Box >
       <Box
         display='flex'
@@ -44,7 +44,8 @@ export const EntityNode = memo(({ data }: Props) => {
           isRename
             ? <Box
               display="flex"
-              gap={.2}
+              alignItems='center'
+              gap={.5}
               sx={{
                 py: .1,
                 px: .5,
@@ -53,6 +54,7 @@ export const EntityNode = memo(({ data }: Props) => {
                 bgcolor: blue[50],
                 // transition: "opacity 0.5s ease"
               }}>
+                {/* add FormInputBase */}
               <InputBase
                 value={d.table.name}
                 sx={{
@@ -60,11 +62,11 @@ export const EntityNode = memo(({ data }: Props) => {
                   bgcolor: blue[50],
                   fontSize: 7,
                 }} />
-              <IconButton size='small' sx={{ p: .5 }}  >
-                <CheckIcon sx={{ fontSize: 9, color: green["A700"] }} />
+              <IconButton size='small' sx={{ p: 0, height: 8 }}  >
+                <CheckIcon sx={{ fontSize: 8, color: green["A700"] }} />
               </IconButton>
-              <IconButton size='small' sx={{ p: .5 }} onClick={() => setIsRename(false)}  >
-                <CloseIcon sx={{ fontSize: 9, color: red["A700"] }} />
+              <IconButton size='small' sx={{ p: 0, height: 8 }} onClick={() => setIsRename(false)}  >
+                <CloseIcon sx={{ fontSize: 8, color: red["A700"] }} />
               </IconButton>
             </Box>
             : <Typography variant='subtitle1' letterSpacing={.5} p={.5} fontSize={8} fontWeight='bold'>
@@ -76,12 +78,15 @@ export const EntityNode = memo(({ data }: Props) => {
 
           {
             !isRename && <IconButton size='small' sx={{ p: 0, mx: .1 }} onClick={handleRename} >
-              <BorderColorIcon sx={{ fontSize: 8, color: grey[700] }} />
+              <BorderColorIcon sx={{ fontSize: 8, color: blue[900] }} />
             </IconButton>
           }
 
           <IconButton size='small' sx={{ p: 0, mx: .1 }} onClick={handleAddColumn} >
-            <AddCircleIcon sx={{ fontSize: 8, color: grey[700] }} />
+            <AddCircleIcon sx={{ fontSize: 8, color: green[700] }} />
+          </IconButton>
+          <IconButton size='small' sx={{ p: 0, mx: .1 }}  >
+            <CancelIcon sx={{ fontSize: 8, color: red[700] }} />
           </IconButton>
           <Popover
             id={id}
@@ -93,7 +98,8 @@ export const EntityNode = memo(({ data }: Props) => {
               horizontal: 'right',
             }}
             transformOrigin={{
-              vertical: 'top',
+              // vertical: 'top',
+              vertical: 'center',
               horizontal: 'left',
             }}
           >

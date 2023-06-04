@@ -12,7 +12,10 @@ export const Entity = memo(() => {
 	const onInit = (reactFlowInstance: any) => console.log('flow loaded:', reactFlowInstance);
 	const { nodes, setNodes, onNodesChange, edges, setEdges, onEdgesChange } = useEntity()
 
-	// const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
+
+	useEffect(() => {
+		document.getElementsByClassName('react-flow__panel react-flow__attribution top right')[0]?.remove()
+	}, [])
 
 	return (
 		<ReactFlowProvider>

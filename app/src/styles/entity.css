@@ -16,6 +16,10 @@
   background-color: #778899;
 }
 
+/* .react-flow__panel .react-flow__attribution {
+  display: none;
+} */
+
 /* .custom-node__select {
   position: relative;
   margin-bottom: 10px;

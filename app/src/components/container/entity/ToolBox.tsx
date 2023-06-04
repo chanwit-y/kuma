@@ -7,6 +7,7 @@ export const ToolBox = () => {
 	return (
 		<Box>
 			<Button onClick={addEntity}>Add</Button>
+			<Button onClick={() => {}}>Save</Button>
 		</Box>
 	)
 }

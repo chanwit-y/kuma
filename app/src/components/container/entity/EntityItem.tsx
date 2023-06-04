@@ -78,7 +78,8 @@ export const EntityItem = memo(({ handleId, column }: Props) => {
 							horizontal: 'right',
 						}}
 						transformOrigin={{
-							vertical: 'top',
+							// vertical: 'top',
+							vertical: 'center',
 							horizontal: 'left',
 						}}
 					>
