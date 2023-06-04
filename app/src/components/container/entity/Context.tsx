@@ -104,14 +104,16 @@ const EntityProvider = ({ children }: Props) => {
 		id: 'e4-5',
 		source: '4',
 		target: '5',
+		// type: ''
 		// type: 'smoothstep',
-		type: 'step',
+		// type: 'step',
 		sourceHandle: 'id',
 		targetHandle: 'productId	',
 		data: {
 			selectIndex: 0,
 		},
 		markerEnd: {
+			// type: MarkerType.ArrowClosed,
 			type: MarkerType.ArrowClosed,
 		},
 	}]);
