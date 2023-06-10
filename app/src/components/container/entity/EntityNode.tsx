@@ -14,6 +14,7 @@ import { FormInputBase } from '@/components/form/components/FormInputBase';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { FormSetting } from '@/components/form/FormSetting';
 import { schema } from './Form.schema';
+import { useEntity } from './Context';
 
 type Props = {
   id?: string,
@@ -21,13 +22,19 @@ type Props = {
 }
 
 export const EntityNode = memo(({ data }: Props) => {
+
+  const { addColumn } = useEntity();
+
   const [isRename, setIsRename] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const formSetting = useForm(FormSetting.getDefaultForm(schema, { name: data.table.name }));
+  const { watch, control } = formSetting;
+  const { append, remove, fields } = useFieldArray({ control: control, name: "columns" })
   // const { append, remove, fields } = useFieldArray({ control: formSetting.control, name: "columns" })
 
   // const columnCounter = useMemo(() => fields.length, [fields]);
+  const tableName = useMemo(() => watch("name"), [watch("name")]);
 
   const handleRename = () => setIsRename(true)
   // const handleAddColumn = (event: MouseEvent<HTMLButtonElement>) => {
@@ -35,7 +42,7 @@ export const EntityNode = memo(({ data }: Props) => {
   //   append({});
   // }
 
-  const handleAddColumn = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+  const handleShowColumnInfo = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     console.log("handleAddColumn");
     // append({});
     setAnchorEl(event.currentTarget)
@@ -49,12 +56,22 @@ export const EntityNode = memo(({ data }: Props) => {
     // remove(columnCounter - 1);
     setAnchorEl(null)
   }, []);
+
+  const handleAddColumn = useCallback((data: any) => {
+    append(data);
+    addColumn(tableName, data);
+    handlePopoverClose();
+  }, [tableName]);
   // }, [columnCounter]);
 
   const open = Boolean(anchorEl);
   const id = open ? 'edit-column-popover' : undefined;
 
   const [d] = useState(data);
+
+  // useEffect(() => {
+  //   console.log(formSetting.watch())
+  // }, [])
 
   return (
     <FormProvider {...formSetting} >
@@ -95,7 +112,7 @@ export const EntityNode = memo(({ data }: Props) => {
               </IconButton>
             </Box>
             : <Typography variant='subtitle1' letterSpacing={.5} p={.5} fontSize={8} fontWeight='bold'>
-              {formSetting.watch('name')}
+              {watch('name')}
             </Typography>
         }
 
@@ -107,7 +124,7 @@ export const EntityNode = memo(({ data }: Props) => {
             </IconButton>
           }
 
-          <IconButton size='small' sx={{ p: 0, mx: .1 }} onClick={handleAddColumn} >
+          <IconButton size='small' sx={{ p: 0, mx: .1 }} onClick={handleShowColumnInfo} >
             <AddCircleIcon sx={{ fontSize: 8, color: green[700] }} />
           </IconButton>
           <IconButton size='small' sx={{ p: 0, mx: .1 }}  >
@@ -128,7 +145,7 @@ export const EntityNode = memo(({ data }: Props) => {
               horizontal: 'left',
             }}
           >
-            <ColumnInfo onPopoverClose={handlePopoverClose}  />
+            <ColumnInfo onAddColumn={handleAddColumn} />
           </Popover>
         </Box>
       </Box>
@@ -146,7 +163,7 @@ export const EntityNode = memo(({ data }: Props) => {
         <Divider />
         <EntityItem type='source' handleId={id} /> */}
       </Box>
-      {JSON.stringify(formSetting.watch(), undefined, 2)}
+      {/* {JSON.stringify(formSetting.watch(), undefined, 2)} */}
     </FormProvider>
   )
 })

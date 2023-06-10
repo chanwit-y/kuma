@@ -14,17 +14,15 @@ import { FormSetting } from "@/components/form/FormSetting";
 
 type Props = {
 	// index: number;
-	onPopoverClose: () => void;
+	onAddColumn: (data: any) => void;
 }
 
-export const ColumnInfo = memo(({ onPopoverClose }: Props) => {
+export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 
 	const { relations, setRelations } = useEntity();
-	const { control } = useFormContext();
 	const formSetting = useForm(FormSetting.getDefaultForm(schemaColumn));
 	const { watch, trigger } = formSetting;
 
-	const { append, remove, fields } = useFieldArray({ control: control, name: "columns" })
 
 	const fk = useMemo<boolean>(() => watch("fk") ?? false, [watch("fk")]);
 	// const index = useMemo(() => fields.length, [fields]);
@@ -103,8 +101,8 @@ export const ColumnInfo = memo(({ onPopoverClose }: Props) => {
 					<Button
 						// disabled={Object.keys(errors).length > 0}
 						onClick={formSetting.handleSubmit((data) => {
-							append(data);
-							onPopoverClose();
+							// append(data);
+							onPopoverClose(data);
 						})}
 						variant="contained" >
 						Save

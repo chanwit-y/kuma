@@ -1,10 +1,6 @@
 import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
 import { NodeChange, useNodesState } from "reactflow";
-import { FormProvider, useForm } from "react-hook-form";
-import { FormSetting } from "@/components/form/FormSetting";
-import { schema } from "./Form.schema";
-import { maxBy } from "lodash";
 
 
 type OnChange<ChangesType> = (changes: ChangesType[]) => void;
@@ -20,7 +16,8 @@ type EntityContextType = {
 	edges: Edge[],
 	setEdges: Dispatch<SetStateAction<Edge[]>>,
 	onEdgesChange: OnChange<EdgeChange>,
-	addEntity: () => void,
+	addEntity: (id: string) => void,
+	addColumn: (tableName: string, data: any) => void,
 	relations: Relation[],
 	setRelations: Dispatch<SetStateAction<Relation[]>>,
 };
@@ -118,10 +115,10 @@ const EntityProvider = ({ children }: Props) => {
 		},
 	}]);
 
-	const addEntity = useCallback(() => {
-		const id = Number(maxBy(nodes, 'id')?.id) + 1; 
+	const addEntity = useCallback((id: string) => {
+		// const id = Number(maxBy(nodes, 'id')?.id) + 1; 
 		setNodes((perv) => ([...perv, {
-			id: id.toString(),
+			id: id,
 			type: 'custom',
 			position: { x: 100, y: 100 },
 			data: {
@@ -131,8 +128,18 @@ const EntityProvider = ({ children }: Props) => {
 				}
 			}
 		}]))
-	}, [nodes])
+	}, [])
 
+	const addColumn = useCallback((tableName: string, data: any) => {
+		setNodes((prev) => {
+			const tempNodes = [...prev];
+			const index = tempNodes.findIndex((f) => f.data.table.name === tableName)
+			if (tempNodes.length > 0 && !!tempNodes[index]) {
+				tempNodes[index]!.data.table.columns = [...tempNodes[index]!.data.table.columns, data];
+			}
+			return prev
+		})
+	}, [])
 
 	const [relations, setRelations] = useState<Relation[]>([]);
 
@@ -145,10 +152,11 @@ const EntityProvider = ({ children }: Props) => {
 			setEdges,
 			onEdgesChange,
 			addEntity,
+			addColumn,
 			relations,
 			setRelations
 		}}>
-				{children}
+			{children}
 		</EntityContext.Provider>
 
 
