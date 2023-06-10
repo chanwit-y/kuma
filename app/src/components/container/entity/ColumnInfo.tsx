@@ -24,7 +24,7 @@ export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 	const { watch, trigger } = formSetting;
 
 
-	const fk = useMemo<boolean>(() => watch("fk") ?? false, [watch("fk")]);
+	const fk = useMemo<boolean>(() => watch("isFK") ?? false, [watch("isFK")]);
 	// const index = useMemo(() => fields.length, [fields]);
 
 

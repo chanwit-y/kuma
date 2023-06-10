@@ -105,7 +105,7 @@ const EntityProvider = ({ children }: Props) => {
 		// type: 'smoothstep',
 		// type: 'step',
 		sourceHandle: 'id',
-		targetHandle: 'productId	',
+		targetHandle: 'productId',
 		data: {
 			selectIndex: 0,
 		},
@@ -113,6 +113,23 @@ const EntityProvider = ({ children }: Props) => {
 			// type: MarkerType.ArrowClosed,
 			type: MarkerType.ArrowClosed,
 		},
+	}, {
+		id: 'e4-6',
+		source: '4',
+		target: '6',
+		// type: ''
+		// type: 'smoothstep',
+		// type: 'step',
+		sourceHandle: 'id',
+		targetHandle: 'productId',
+		data: {
+			selectIndex: 0,
+		},
+		markerEnd: {
+			// type: MarkerType.ArrowClosed,
+			type: MarkerType.ArrowClosed,
+		},
+
 	}]);
 
 	const addEntity = useCallback((id: string) => {
@@ -137,6 +154,7 @@ const EntityProvider = ({ children }: Props) => {
 			if (tempNodes.length > 0 && !!tempNodes[index]) {
 				tempNodes[index]!.data.table.columns = [...tempNodes[index]!.data.table.columns, data];
 			}
+			console.log(prev)
 			return prev
 		})
 	}, [])
