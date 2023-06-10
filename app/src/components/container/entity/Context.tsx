@@ -133,7 +133,6 @@ const EntityProvider = ({ children }: Props) => {
 		}]))
 	}, [nodes])
 
-	const formSetting = useForm(FormSetting.getDefaultForm(schema));
 
 	const [relations, setRelations] = useState<Relation[]>([]);
 
@@ -149,9 +148,7 @@ const EntityProvider = ({ children }: Props) => {
 			relations,
 			setRelations
 		}}>
-			<FormProvider {...formSetting} >
 				{children}
-			</FormProvider>
 		</EntityContext.Provider>
 
 

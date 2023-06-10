@@ -5,7 +5,7 @@ const relationSchema = object().shape({
   column: string().required(),
 });
 
-export const schema = object().shape({
+export const schemaColumn = object().shape({
   name: string().required(),
   dataType: string().required(),
   length: number(),
@@ -17,3 +17,8 @@ export const schema = object().shape({
     otherwise: () => array(relationSchema),
   }),
 });
+
+export const schema = object().shape({
+  name: string().required(),
+  columns: array(schemaColumn).min(1, "At least one column is required"),
+})
