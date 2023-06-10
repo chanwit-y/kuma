@@ -83,7 +83,7 @@ export const EntityItem = memo(({ handleId, column }: Props) => {
 							horizontal: 'left',
 						}}
 					>
-						<ColumnInfo />
+						<ColumnInfo onAddColumn={() =>{}} />
 					</Popover>
 				</Box>
 			</Box>
