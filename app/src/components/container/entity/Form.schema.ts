@@ -9,9 +9,9 @@ export const schemaColumn = object().shape({
   name: string().required(),
   dataType: string().required(),
   length: number(),
-  pk: bool(),
-  fk: bool(),
-  relations: array().when("fk", {
+  isPK: bool(),
+  isFK: bool(),
+  relations: array().when("isFK", {
     is: (f: boolean) => f,
     then: () => array(relationSchema).min(1, "At least one relation is required"),
     otherwise: () => array(relationSchema),

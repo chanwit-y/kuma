@@ -46,10 +46,10 @@ export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 					<FormSelectFieldString name="dataType" label="Data type" items={["BigInt", "Int", "Bit", "Nvarchar"]} />
 					<FormTextField name="length" label="Len" variant="outlined" size="small" sx={{ width: "30%" }} />
 				</Box>
-				<CheckBox value="PK" label="Primary Key" />
+				<FormCheckBox name="isPK"  label="Primary Key" />
 				<Box display='flex' mb={1} gap={1}>
 
-					<FormCheckBox name="fk" value="FK" label="Foreign Key" />
+					<FormCheckBox name="isFK"  label="Foreign Key" />
 					{fk && (
 						<IconButton
 							color="success"

@@ -6,6 +6,7 @@ import { Handle, Position } from 'reactflow';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { ColumnInfo } from './ColumnInfo';
+import { useFormContext } from 'react-hook-form';
 
 type Props = {
 	// type: HandleType;
@@ -14,6 +15,8 @@ type Props = {
 }
 
 export const EntityItem = memo(({ handleId, column }: Props) => {
+	const { watch } = useFormContext();
+
 	const [isHighlight, setHighlight] = useState(false)
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
