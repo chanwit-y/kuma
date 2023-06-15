@@ -20,6 +20,7 @@ type EntityContextType = {
 	addColumn: (tableName: string, data: any) => void,
 	relations: Relation[],
 	setRelations: Dispatch<SetStateAction<Relation[]>>,
+	updateNodeTableName: (id: string, tableName: string) => void,
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
@@ -130,7 +131,34 @@ const EntityProvider = ({ children }: Props) => {
 			type: MarkerType.ArrowClosed,
 		},
 
+	}, {
+		id: 'e5-7',
+		source: '5',
+		target: '7',
+		// type: ''
+		// type: 'smoothstep',
+		// type: 'step',
+		sourceHandle: 'id',
+		targetHandle: 'uomId',
+		data: {
+			selectIndex: 0,
+		},
+		markerEnd: {
+			// type: MarkerType.ArrowClosed,
+			type: MarkerType.ArrowClosed,
+		},
+
 	}]);
+
+	const updateNodeTableName = useCallback((id: string, tableName: string) => {
+		setNodes((prev) => {
+			const tempNodes = [...prev];
+			console.log("id", id);
+			const index = tempNodes.findIndex((f) => f.data.table.name === id)
+			tempNodes[index]!.data.table.name = tableName;
+			return [...tempNodes]
+		})
+	}, []);
 
 	const addEntity = useCallback((id: string) => {
 		// const id = Number(maxBy(nodes, 'id')?.id) + 1; 
@@ -172,7 +200,8 @@ const EntityProvider = ({ children }: Props) => {
 			addEntity,
 			addColumn,
 			relations,
-			setRelations
+			setRelations,
+			updateNodeTableName
 		}}>
 			{children}
 		</EntityContext.Provider>

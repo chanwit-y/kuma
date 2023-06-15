@@ -23,7 +23,7 @@ type Props = {
 
 export const EntityNode = memo(({ data }: Props) => {
 
-  const { addColumn } = useEntity();
+  const { addColumn, updateNodeTableName } = useEntity();
 
   const [isRename, setIsRename] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -104,7 +104,12 @@ export const EntityNode = memo(({ data }: Props) => {
                   bgcolor: blue[50],
                   fontSize: 7,
                 }} /> */}
-              <IconButton size='small' sx={{ p: 0, height: 8 }}  >
+              <IconButton size='small' sx={{ p: 0, height: 8 }} onClick={() => {
+                formSetting.handleSubmit((d) => {
+                  updateNodeTableName(data.table.name, d.name)
+                  setIsRename(false)
+                })()
+              }} >
                 <CheckIcon sx={{ fontSize: 8, color: green["A700"] }} />
               </IconButton>
               <IconButton size='small' sx={{ p: 0, height: 8 }} onClick={() => setIsRename(false)}  >

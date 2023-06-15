@@ -20,5 +20,6 @@ export const schemaColumn = object().shape({
 
 export const schema = object().shape({
   name: string().required(),
-  columns: array(schemaColumn).min(1, "At least one column is required"),
+  // columns: array(schemaColumn).min(1, "At least one column is required"),
+  columns: array(schemaColumn),
 })
