@@ -17,7 +17,7 @@ type Props = {
 	onAddColumn: (data: any) => void;
 }
 
-export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
+export const ColumnInfo = memo(({ onAddColumn }: Props) => {
 
 	const { relations, setRelations } = useEntity();
 	const formSetting = useForm(FormSetting.getDefaultForm(schemaColumn));
@@ -50,7 +50,7 @@ export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 				<Box display='flex' mb={1} gap={1}>
 
 					<FormCheckBox name="isFK"  label="Foreign Key" />
-					{fk && (
+					{/* {fk && (
 						<IconButton
 							color="success"
 							onClick={() => {
@@ -59,21 +59,34 @@ export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 						>
 							<PlaylistAddIcon />
 						</IconButton>
-					)}
+					)} */}
 				</Box>
 				{fk && (
 					<Box
-						maxHeight={160}
-						border={1}
-						borderRadius={1}
+						// maxHeight={160}
+						// border={1}
+						// borderRadius={1}
 						borderColor={grey[300]}
-						p={1.5}
-						overflow="scroll"
-						sx={{
-							borderStyle: "dashed",
-						}}
+						// p={1.5}
+						// overflow="scroll"
+						// sx={{
+						// 	borderStyle: "dashed",
+						// }}
 					>
-						{relations.map((relation, index) => (
+						{/* <Divider sx={{mb: 1}} /> */}
+							<Box display='flex' justifyContent="space-between" gap={1}>
+								<FormSelectFieldString name="fkTableName" label="Table" items={["Product", "UOM"]} />
+								<FormSelectFieldString name="fkColumnName" label="Column" items={["Id"]} />
+								<IconButton
+									color="error"
+									onClick={() => {
+										// setRelations(prev => prev.filter((_, i) => i !== index))
+									}} >
+									{/* <PlaylistRemoveIcon /> */}
+								</IconButton>
+
+							</Box>
+						{/* {relations.map((relation, index) => (
 							<Box display='flex' justifyContent="space-between" gap={1}>
 								<SelectField<string> label="Table" items={["Product", "UOM"]} />
 								<SelectField<string> label="Column" items={["Id"]} />
@@ -89,7 +102,7 @@ export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 						))}
 						{relations.length === 0 && (
 							<Typography variant="caption" color="text.secondary">No relation</Typography>
-						)}
+						)} */}
 					</Box>
 				)
 				}
@@ -102,7 +115,7 @@ export const ColumnInfo = memo(({ onAddColumn: onPopoverClose }: Props) => {
 						// disabled={Object.keys(errors).length > 0}
 						onClick={formSetting.handleSubmit((data) => {
 							// append(data);
-							onPopoverClose(data);
+							onAddColumn(data);
 						})}
 						variant="contained" >
 						Save

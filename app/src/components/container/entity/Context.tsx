@@ -114,41 +114,43 @@ const EntityProvider = ({ children }: Props) => {
 			// type: MarkerType.ArrowClosed,
 			type: MarkerType.ArrowClosed,
 		},
-	}, {
-		id: 'e4-6',
-		source: '4',
-		target: '6',
-		// type: ''
-		// type: 'smoothstep',
-		// type: 'step',
-		sourceHandle: 'id',
-		targetHandle: 'productId',
-		data: {
-			selectIndex: 0,
-		},
-		markerEnd: {
-			// type: MarkerType.ArrowClosed,
-			type: MarkerType.ArrowClosed,
-		},
+	}
+		// , {
+		// 	id: 'e4-6',
+		// 	source: '4',
+		// 	target: '6',
+		// 	// type: ''
+		// 	// type: 'smoothstep',
+		// 	// type: 'step',
+		// 	sourceHandle: 'id',
+		// 	targetHandle: 'productId',
+		// 	data: {
+		// 		selectIndex: 0,
+		// 	},
+		// 	markerEnd: {
+		// 		// type: MarkerType.ArrowClosed,
+		// 		type: MarkerType.ArrowClosed,
+		// 	},
 
-	}, {
-		id: 'e5-7',
-		source: '5',
-		target: '7',
-		// type: ''
-		// type: 'smoothstep',
-		// type: 'step',
-		sourceHandle: 'id',
-		targetHandle: 'uomId',
-		data: {
-			selectIndex: 0,
-		},
-		markerEnd: {
-			// type: MarkerType.ArrowClosed,
-			type: MarkerType.ArrowClosed,
-		},
+		// }, {
+		// 	id: 'e5-7',
+		// 	source: '5',
+		// 	target: '7',
+		// 	// type: ''
+		// 	// type: 'smoothstep',
+		// 	// type: 'step',
+		// 	sourceHandle: 'id',
+		// 	targetHandle: 'uomId',
+		// 	data: {
+		// 		selectIndex: 0,
+		// 	},
+		// 	markerEnd: {
+		// 		// type: MarkerType.ArrowClosed,
+		// 		type: MarkerType.ArrowClosed,
+		// 	},
 
-	}]);
+		// }
+	]);
 
 	const updateNodeTableName = useCallback((id: string, tableName: string) => {
 		setNodes((prev) => {
@@ -173,19 +175,40 @@ const EntityProvider = ({ children }: Props) => {
 				}
 			}
 		}]))
+
 	}, [])
 
 	const addColumn = useCallback((tableName: string, data: any) => {
+		let nodeId = "";
 		setNodes((prev) => {
 			const tempNodes = [...prev];
 			const index = tempNodes.findIndex((f) => f.data.table.name === tableName)
 			if (tempNodes.length > 0 && !!tempNodes[index]) {
+				nodeId = tempNodes[index]?.id ?? "";
 				tempNodes[index]!.data.table.columns = [...tempNodes[index]!.data.table.columns, data];
 			}
-			console.log(prev)
 			return prev
 		})
-	}, [])
+		if (nodeId !== "" && data.fkTableName !== "") {
+			const currentNode = nodes.find((f) => f.id === nodeId)
+			const sourceNode = nodes.find((f) => f.data.table.name === data.fkTableName)
+			setEdges((prev) => ([...prev, {
+				id: `e${sourceNode?.id}-${currentNode?.id}`,
+				source: sourceNode?.id ?? "",
+				target: currentNode?.id ?? "",
+				sourceHandle: data.fkColumnName,
+				targetHandle: data.name,
+				data: {
+					selectIndex: 0,
+				},
+				markerEnd: {
+					type: MarkerType.ArrowClosed,
+				},
+
+			}]))
+		}
+
+	}, [nodes])
 
 	const [relations, setRelations] = useState<Relation[]>([]);
 
