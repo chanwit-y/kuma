@@ -19,7 +19,7 @@ type Props = {
 
 export const ColumnInfo = memo(({ onAddColumn }: Props) => {
 
-	const { relations, setRelations } = useEntity();
+	const { tableNames } = useEntity();
 	const formSetting = useForm(FormSetting.getDefaultForm(schemaColumn));
 	const { watch, trigger } = formSetting;
 
@@ -75,7 +75,7 @@ export const ColumnInfo = memo(({ onAddColumn }: Props) => {
 					>
 						{/* <Divider sx={{mb: 1}} /> */}
 							<Box display='flex' justifyContent="space-between" gap={1}>
-								<FormSelectFieldString name="fkTableName" label="Table" items={["Product", "UOM"]} />
+								<FormSelectFieldString name="fkTableName" label="Table" items={tableNames} />
 								<FormSelectFieldString name="fkColumnName" label="Column" items={["Id"]} />
 								<IconButton
 									color="error"

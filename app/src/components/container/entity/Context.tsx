@@ -21,6 +21,7 @@ type EntityContextType = {
 	relations: Relation[],
 	setRelations: Dispatch<SetStateAction<Relation[]>>,
 	updateNodeTableName: (id: string, tableName: string) => void,
+	tableNames: string[];
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
@@ -152,6 +153,8 @@ const EntityProvider = ({ children }: Props) => {
 		// }
 	]);
 
+	const tableNames = nodes.map((f) => f.data.table.name);
+
 	const updateNodeTableName = useCallback((id: string, tableName: string) => {
 		setNodes((prev) => {
 			const tempNodes = [...prev];
@@ -198,6 +201,7 @@ const EntityProvider = ({ children }: Props) => {
 				target: currentNode?.id ?? "",
 				sourceHandle: data.fkColumnName,
 				targetHandle: data.name,
+				type: 'step',
 				data: {
 					selectIndex: 0,
 				},
@@ -224,7 +228,8 @@ const EntityProvider = ({ children }: Props) => {
 			addColumn,
 			relations,
 			setRelations,
-			updateNodeTableName
+			updateNodeTableName,
+			tableNames,
 		}}>
 			{children}
 		</EntityContext.Provider>
