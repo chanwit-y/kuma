@@ -2,7 +2,7 @@ import { CheckBox, FormCheckBox } from "@/components/form/components/FormCheckBo
 import { FormSelectFieldString, SelectField } from "@/components/form/components/FormSelectField";
 import { FormTextField } from "@/components/form/components/FormTextField";
 import { Box, Button, Divider, IconButton, TextField, Typography } from "@mui/material"
-import { memo, useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { FormProvider, useFieldArray, useForm, useFormContext } from "react-hook-form";
 import { useEntity } from "./Context";
 
@@ -19,10 +19,11 @@ type Props = {
 
 export const ColumnInfo = memo(({ onAddColumn }: Props) => {
 
-	const { tableNames } = useEntity();
+	const { tableNames, getColumnPKNames: getColumnNames } = useEntity();
 	const formSetting = useForm(FormSetting.getDefaultForm(schemaColumn));
 	const { watch, trigger } = formSetting;
 
+	// const [columns, setColumns] = useState([]);
 
 	const fk = useMemo<boolean>(() => watch("isFK") ?? false, [watch("isFK")]);
 	// const index = useMemo(() => fields.length, [fields]);
@@ -76,7 +77,7 @@ export const ColumnInfo = memo(({ onAddColumn }: Props) => {
 						{/* <Divider sx={{mb: 1}} /> */}
 							<Box display='flex' justifyContent="space-between" gap={1}>
 								<FormSelectFieldString name="fkTableName" label="Table" items={tableNames} />
-								<FormSelectFieldString name="fkColumnName" label="Column" items={["Id"]} />
+								<FormSelectFieldString name="fkColumnName" label="Column" items={getColumnNames(formSetting.watch("fkTableName"))} />
 								<IconButton
 									color="error"
 									onClick={() => {

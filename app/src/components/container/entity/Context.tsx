@@ -1,5 +1,5 @@
 import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
 import { NodeChange, useNodesState } from "reactflow";
 
 
@@ -22,6 +22,7 @@ type EntityContextType = {
 	setRelations: Dispatch<SetStateAction<Relation[]>>,
 	updateNodeTableName: (id: string, tableName: string) => void,
 	tableNames: string[];
+	getColumnPKNames: (tableName: string) => any[];
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
@@ -105,7 +106,7 @@ const EntityProvider = ({ children }: Props) => {
 		target: '5',
 		// type: ''
 		// type: 'smoothstep',
-		// type: 'step',
+		type: 'step',
 		sourceHandle: 'id',
 		targetHandle: 'productId',
 		data: {
@@ -153,7 +154,11 @@ const EntityProvider = ({ children }: Props) => {
 		// }
 	]);
 
-	const tableNames = nodes.map((f) => f.data.table.name);
+	const tableNames = useMemo(() => nodes.map((f) => f.data.table.name), [nodes]);
+	const getColumnPKNames = useCallback((tableName: string) => {
+		const node = nodes.find((f) => f.data.table.name === tableName);
+		return (node?.data.table.columns ?? []).filter((f) => f.isPK).map((f) => f.name);
+	}, [nodes]);
 
 	const updateNodeTableName = useCallback((id: string, tableName: string) => {
 		setNodes((prev) => {
@@ -230,6 +235,7 @@ const EntityProvider = ({ children }: Props) => {
 			setRelations,
 			updateNodeTableName,
 			tableNames,
+			getColumnPKNames,
 		}}>
 			{children}
 		</EntityContext.Provider>
