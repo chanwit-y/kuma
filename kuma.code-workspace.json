@@ -2,15 +2,6 @@
   "folders": [
     {
       "path": "app"
-    },
-    {
-      "path": "api"
-    },
-    {
-      "path": "cli"
-    },
-    {
-      "path": "engine"
     }
   ],
   "settings": {}

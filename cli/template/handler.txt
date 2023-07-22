@@ -1,9 +1,0 @@
-package approval2
-
-type handler struct {
-	service Service
-}
-
-func NewHandler(service Service) handler {
-	return handler{service}
-}
