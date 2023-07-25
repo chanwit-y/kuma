@@ -1,6 +1,7 @@
 import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
 import { NodeChange, useNodesState } from "reactflow";
+import { api } from "@/util/api";
 
 
 type OnChange<ChangesType> = (changes: ChangesType[]) => void;
@@ -23,6 +24,7 @@ type EntityContextType = {
 	updateNodeTableName: (id: string, tableName: string) => void,
 	tableNames: string[];
 	getColumnPKNames: (tableName: string) => any[];
+	saveEntity: () => Promise<void>;
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
@@ -219,6 +221,18 @@ const EntityProvider = ({ children }: Props) => {
 
 	}, [nodes])
 
+	const entity = api.entity.saveEntity.useMutation();
+	const saveEntity = useCallback(async () => {
+		entity.mutate({data: nodes}, {
+			onSuccess: (res) => {
+				console.log(res)
+			},
+			onError: (e) => {
+				console.log(e)
+			}
+		})
+	}, [nodes, entity])
+
 	const [relations, setRelations] = useState<Relation[]>([]);
 
 	return (
@@ -236,6 +250,7 @@ const EntityProvider = ({ children }: Props) => {
 			updateNodeTableName,
 			tableNames,
 			getColumnPKNames,
+			saveEntity,
 		}}>
 			{children}
 		</EntityContext.Provider>

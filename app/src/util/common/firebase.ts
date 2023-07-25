@@ -49,6 +49,8 @@ export class Firebase {
   }
 
   public async add(name: string, data: any) {
+    console.log("add")
+    console.log(data)
     const ref = doc(this.getCollection(name));
     await setDoc(ref, data);
     console.log("add data ref", ref.id);

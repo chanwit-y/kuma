@@ -24,7 +24,10 @@ export default Project;
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
   let resutl: string = "";
   try {
-    const { stdout, stderr } = await exec('ls -la');
+    // const {  } = await exec('cd out && ls -la');
+    // const { stdout, stderr } = await exec('ls -la');
+    const { stdout, stderr } = await exec('cd .. && cd out && mkdir D && cd D && go mod init D && ls -la');
+    // const { stdout, stderr } = await exec('pwd');
     resutl = stdout;
     console.log('stdout:', stdout);
     console.log('stderr:', stderr);
