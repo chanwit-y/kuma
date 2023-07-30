@@ -1,3 +1,4 @@
+import { getProjectById } from "./../service/project";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
@@ -16,4 +17,7 @@ export const projectRouter = createTRPCRouter({
       await createProject(input);
       return {};
     }),
+  getProjectById: publicProcedure.input(z.string()).query(async ({ input }) => {
+    return await getProjectById(input);
+  }),
 });

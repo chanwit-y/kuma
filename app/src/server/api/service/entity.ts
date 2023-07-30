@@ -1,7 +1,13 @@
 import firebase from "@/util/common/firebase"
 
-export const saveEntity = async (data: any) => {
-	console.log('=========')
-	console.log('saveEntity', data)
+export const createEntity = async (data: any) => {
 	await firebase.add("entities", data)
+}
+
+export const updateEntity = async (id: string, data: any) => {
+	await firebase.update("entities", id, "nodes", data)
+}
+
+export const getEntity = async (id: string) => {
+	return await firebase.findById("entities", id);
 }

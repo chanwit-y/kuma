@@ -4,7 +4,7 @@ import { useEntity } from './Context'
 import { maxBy } from 'lodash';
 
 export const ToolBox = () => {
-	const { addEntity, nodes, saveEntity } = useEntity();
+	const { addEntity, nodes, createEntity, updateEntity } = useEntity();
 	const nextId = useMemo(() => Number(maxBy(nodes, 'id')?.id) + 1, [nodes]);
 
 	return (
@@ -12,8 +12,12 @@ export const ToolBox = () => {
 			<Button onClick={() => addEntity(nextId.toString())}>Add</Button>
 			<Button onClick={async () => {
 				console.log(nodes)
-				await saveEntity();
-			}}>Save</Button>
+				await createEntity();
+			}}>Create</Button>
+			<Button onClick={async () => {
+				console.log(nodes)
+				await updateEntity();
+			}}>Update</Button>
 		</Box>
 	)
 }

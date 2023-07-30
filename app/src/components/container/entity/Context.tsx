@@ -1,7 +1,9 @@
 import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
-import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { NodeChange, useNodesState } from "reactflow";
 import { api } from "@/util/api";
+import { useQuery } from "@tanstack/react-query";
+import { cloneDeep } from "lodash";
 
 
 type OnChange<ChangesType> = (changes: ChangesType[]) => void;
@@ -24,84 +26,99 @@ type EntityContextType = {
 	updateNodeTableName: (id: string, tableName: string) => void,
 	tableNames: string[];
 	getColumnPKNames: (tableName: string) => any[];
-	saveEntity: () => Promise<void>;
+	createEntity: () => Promise<void>;
+	updateEntity: () => Promise<void>;
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
 );
 
 type Props = {
+	id: string;
 	children: ReactNode;
 };
-const EntityProvider = ({ children }: Props) => {
-	const [nodes, setNodes, onNodesChange] = useNodesState([{
-		id: '4',
-		type: 'custom',
-		position: { x: 100, y: 200 },
-		data: {
-			// selects: {
-			// 	'handle-0': 'smoothstep',
-			// 	'handle-1': 'smoothstep',
-			// },
-			table: {
-				name: "Product",
-				columns: [{
-					name: 'id',
-					isPK: true,
-					isFK: false,
-					dataType: 'int',
-				},
-				{
-					name: 'code',
-					isPK: false,
-					isFK: false,
-					dataType: 'nvarchar',
-					length: 50,
-				},
-				{
-					name: 'name',
-					isPK: false,
-					isFK: false,
-					dataType: 'nvarchar',
-					length: 100,
-				},
-				],
-			},
-		},
-	},
-	{
-		id: '5',
-		type: 'custom',
-		position: { x: 300, y: 300 },
-		data: {
-			// selects: {
-			// 	'handle-0': 'smoothstep',
-			// 	'handle-1': 'smoothstep',
-			// },
-			table: {
-				name: "UOM",
-				columns: [{
-					name: 'id',
-					isPK: true,
-					isFK: false,
-					dataType: 'int',
-				}, {
-					name: 'productId',
-					isPK: false,
-					isFK: true,
-					dataType: 'int',
-				}
-					, {
-					name: 'name',
-					isPK: false,
-					isFK: false,
-					dataType: 'nvarchar',
-					length: 50,
-				}],
-			},
-		},
-	}
-	]);
+const EntityProvider = ({ children, id }: Props) => {
+	const qurEntity = api.entity.getEntity.useQuery(id);
+	const entities = useMemo(() => {
+		return cloneDeep((qurEntity.data as {nodes: any[]})?.nodes ?? []) 
+	}, [qurEntity.data])
+
+	// const [entities, setEntities] = useState<any[]>([])
+	useEffect(() => {
+		console.log(entities)
+		setNodes(entities)
+	}, [entities])
+
+
+	const [nodes, setNodes, onNodesChange] = useNodesState([])
+	// const [nodes, setNodes, onNodesChange] = useNodesState([{
+	// 	id: '4',
+	// 	type: 'custom',
+	// 	position: { x: 100, y: 200 },
+	// 	data: {
+	// 		// selects: {
+	// 		// 	'handle-0': 'smoothstep',
+	// 		// 	'handle-1': 'smoothstep',
+	// 		// },
+	// 		table: {
+	// 			name: "Product",
+	// 			columns: [{
+	// 				name: 'id',
+	// 				isPK: true,
+	// 				isFK: false,
+	// 				dataType: 'int',
+	// 			},
+	// 			{
+	// 				name: 'code',
+	// 				isPK: false,
+	// 				isFK: false,
+	// 				dataType: 'nvarchar',
+	// 				length: 50,
+	// 			},
+	// 			{
+	// 				name: 'name',
+	// 				isPK: false,
+	// 				isFK: false,
+	// 				dataType: 'nvarchar',
+	// 				length: 100,
+	// 			},
+	// 			],
+	// 		},
+	// 	},
+	// },
+	// {
+	// 	id: '5',
+	// 	type: 'custom',
+	// 	position: { x: 300, y: 300 },
+	// 	data: {
+	// 		// selects: {
+	// 		// 	'handle-0': 'smoothstep',
+	// 		// 	'handle-1': 'smoothstep',
+	// 		// },
+	// 		table: {
+	// 			name: "UOM",
+	// 			columns: [{
+	// 				name: 'id',
+	// 				isPK: true,
+	// 				isFK: false,
+	// 				dataType: 'int',
+	// 			}, {
+	// 				name: 'productId',
+	// 				isPK: false,
+	// 				isFK: true,
+	// 				dataType: 'int',
+	// 			}
+	// 				, {
+	// 				name: 'name',
+	// 				isPK: false,
+	// 				isFK: false,
+	// 				dataType: 'nvarchar',
+	// 				length: 50,
+	// 			}],
+	// 		},
+	// 	},
+	// }
+	// ]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState([{
 		id: 'e4-5',
 		source: '4',
@@ -159,7 +176,7 @@ const EntityProvider = ({ children }: Props) => {
 	const tableNames = useMemo(() => nodes.map((f) => f.data.table.name), [nodes]);
 	const getColumnPKNames = useCallback((tableName: string) => {
 		const node = nodes.find((f) => f.data.table.name === tableName);
-		return (node?.data.table.columns ?? []).filter((f) => f.isPK).map((f) => f.name);
+		return (node?.data.table.columns ?? []).filter((f: any) => f.isPK).map((f: any) => f.name);
 	}, [nodes]);
 
 	const updateNodeTableName = useCallback((id: string, tableName: string) => {
@@ -221,9 +238,11 @@ const EntityProvider = ({ children }: Props) => {
 
 	}, [nodes])
 
-	const entity = api.entity.saveEntity.useMutation();
-	const saveEntity = useCallback(async () => {
-		entity.mutate({data: nodes}, {
+
+	const mutCreateEntity = api.entity.createEntity.useMutation();
+	const createEntity = useCallback(async () => {
+		console.log(nodes)
+		mutCreateEntity.mutate({nodes: nodes}, {
 			onSuccess: (res) => {
 				console.log(res)
 			},
@@ -231,7 +250,16 @@ const EntityProvider = ({ children }: Props) => {
 				console.log(e)
 			}
 		})
-	}, [nodes, entity])
+	}, [nodes, mutCreateEntity])
+
+	const mutUpdateEntity = api.entity.updateEntity.useMutation();
+	const updateEntity = useCallback(async () => {
+		await mutUpdateEntity.mutate({id, nodes}, {onSuccess: (res) => {
+			console.log(res)
+		}, onError: (e) => {
+			console.log(e)
+		}})
+	}, [nodes, id, mutUpdateEntity])
 
 	const [relations, setRelations] = useState<Relation[]>([]);
 
@@ -250,8 +278,12 @@ const EntityProvider = ({ children }: Props) => {
 			updateNodeTableName,
 			tableNames,
 			getColumnPKNames,
-			saveEntity,
+			createEntity,
+			updateEntity,
+			
 		}}>
+			{/* {JSON.stringify(entities, undefined, 2)} */}
+			{/* {JSON.stringify(nodes, undefined, 2)} */}
 			{children}
 		</EntityContext.Provider>
 
