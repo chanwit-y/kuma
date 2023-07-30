@@ -10,9 +10,9 @@ export const entityRouter = createTRPCRouter({
   }),
   updateEntity: publicProcedure.input(z.object({
 	id: z.string(),
-	nodes: z.any()
+	data: z.any()
   })).mutation(async ({input}) => {
-	await updateEntity(input.id, input.nodes)
+	await updateEntity(input.id, input.data)
 	return {}
   }),
   getEntity: publicProcedure.input(z.string()).query(async ({ input }) => {

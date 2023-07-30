@@ -40,7 +40,7 @@ type Props = {
 const EntityProvider = ({ children, id }: Props) => {
 	const qurEntity = api.entity.getEntity.useQuery(id);
 	const entities = useMemo(() => {
-		return cloneDeep((qurEntity.data as {nodes: any[]})?.nodes ?? []) 
+		return cloneDeep((qurEntity.data as { nodes: any[] })?.nodes ?? [])
 	}, [qurEntity.data])
 
 	// const [entities, setEntities] = useState<any[]>([])
@@ -242,24 +242,31 @@ const EntityProvider = ({ children, id }: Props) => {
 	const mutCreateEntity = api.entity.createEntity.useMutation();
 	const createEntity = useCallback(async () => {
 		console.log(nodes)
-		mutCreateEntity.mutate({nodes: nodes}, {
-			onSuccess: (res) => {
-				console.log(res)
-			},
-			onError: (e) => {
-				console.log(e)
-			}
-		})
-	}, [nodes, mutCreateEntity])
+		console.log(edges)
+		console.log({ data: { nodes: nodes, edges: edges } })
+		if (nodes) {
+			mutCreateEntity.mutate({ nodes: nodes, edges: [...edges] }, {
+				// mutCreateEntity.mutate( { nodes: nodes }, {
+				onSuccess: (res) => {
+					console.log(res)
+				},
+				onError: (e) => {
+					console.log(e)
+				}
+			})
+		}
+	}, [nodes, edges, mutCreateEntity])
 
 	const mutUpdateEntity = api.entity.updateEntity.useMutation();
 	const updateEntity = useCallback(async () => {
-		await mutUpdateEntity.mutate({id, nodes}, {onSuccess: (res) => {
-			console.log(res)
-		}, onError: (e) => {
-			console.log(e)
-		}})
-	}, [nodes, id, mutUpdateEntity])
+		await mutUpdateEntity.mutate({ id, data: { nodes: nodes, edges: edges } }, {
+			onSuccess: (res) => {
+				console.log(res)
+			}, onError: (e) => {
+				console.log(e)
+			}
+		})
+	}, [nodes, edges, id, mutUpdateEntity])
 
 	const [relations, setRelations] = useState<Relation[]>([]);
 
@@ -280,7 +287,7 @@ const EntityProvider = ({ children, id }: Props) => {
 			getColumnPKNames,
 			createEntity,
 			updateEntity,
-			
+
 		}}>
 			{/* {JSON.stringify(entities, undefined, 2)} */}
 			{/* {JSON.stringify(nodes, undefined, 2)} */}

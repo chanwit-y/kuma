@@ -1,6 +1,7 @@
 import firebase from "@/util/common/firebase"
 
 export const createEntity = async (data: any) => {
+	console.log(data)
 	await firebase.add("entities", data)
 }
 
