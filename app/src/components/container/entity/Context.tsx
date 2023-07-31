@@ -23,6 +23,7 @@ type EntityContextType = {
 	addEntity: () => void,
 	addColumn: (tableName: string, data: any) => void,
 	editColumn: (tableName: string, data: any) => void,
+	deleteColumn: (tableName: string, id: string) => void,
 	relations: Relation[],
 	setRelations: Dispatch<SetStateAction<Relation[]>>,
 	updateNodeTableName: (id: string, tableName: string) => void,
@@ -83,23 +84,7 @@ const EntityProvider = ({ children, id }: Props) => {
 
 	}, [nodes])
 
-	const editColumn = useCallback((tableName: string, data: any) => {
-		setNodes((prev) => {
-			const tempNodes = [...prev];
-			const indexNode = tempNodes.findIndex((f) => f.data.table.name === tableName);
-			const indexColumn = tempNodes[indexNode]?.data?.table?.columns?.findIndex((f: any) => f?.id === data?.id);
-
-			if (tempNodes[indexNode]?.data?.table?.columns) {
-				tempNodes[indexNode]!.data.table.columns[indexColumn] = data;
-			}
-
-
-			return tempNodes;
-		});
-	}, [setNodes])
-
 	const addColumn = useCallback((tableName: string, data: any) => {
-		console.log(tableName)
 		let nodeId = "";
 		let tempNodes: any[] = [];
 		setNodes((prev) => {
@@ -113,7 +98,6 @@ const EntityProvider = ({ children, id }: Props) => {
 			}
 			return tempNodes
 		})
-		console.log(nodeId)
 		if (nodeId !== "" &&
 			data.fkColumnName !== undefined &&
 			data.fkTableName !== "") {
@@ -135,9 +119,55 @@ const EntityProvider = ({ children, id }: Props) => {
 
 			}]))
 		}
+		console.log(nodes)
+		console.log(edges)
 
-	}, [nodes, edges, setEdges, setNodes])
+	}, [setEdges, setNodes])
 
+	const editColumn = useCallback((tableName: string, data: any) => {
+		setNodes((prev) => {
+			const tempNodes = [...prev];
+			const indexNode = tempNodes.findIndex((f) => f.data.table.name === tableName);
+			const indexColumn = tempNodes[indexNode]?.data?.table?.columns?.findIndex((f: any) => f?.id === data?.id);
+
+			if (tempNodes[indexNode]?.data?.table?.columns) {
+				tempNodes[indexNode]!.data.table.columns[indexColumn] = data;
+			}
+
+
+			return tempNodes;
+		});
+	}, [setNodes])
+
+	const deleteColumn = useCallback((tableName: string, id: string) => {
+		setNodes((prev) => {
+			const tempNodes = [...prev];
+			const indexNode = tempNodes.findIndex((f) => f.data.table.name === tableName);
+			const indexColumn = tempNodes[indexNode]?.data?.table?.columns?.findIndex((f: any) => f?.id === id);
+
+
+
+			if (tempNodes[indexNode]?.data?.table?.columns) {
+				const columns = tempNodes[indexNode]!.data.table.columns;
+				tempNodes[indexNode]!.data.table.columns = [...columns.slice(0, indexColumn), ...columns.slice(indexColumn + 1, columns.length)]
+				// console.log(columns.slice(0, indexColumn))
+				// console.log(columns)
+				// console.log(indexColumn)
+				// console.log(columns.length)
+				// console.log(columns.slice(indexColumn + 1, columns.length))
+				// console.log(columns.slice(indexColumn + 1))
+				console.log(tempNodes)
+				return tempNodes;
+			}
+
+			// if (tempNodes[indexNode]?.data?.table?.columns) {
+			// 	tempNodes[indexNode]!.data.table.columns[indexColumn] = data;
+			// }
+
+
+			return tempNodes;
+		});
+	}, [setNodes])
 
 	const mutCreateEntity = api.entity.createEntity.useMutation();
 	const createEntity = useCallback(async () => {
@@ -181,6 +211,7 @@ const EntityProvider = ({ children, id }: Props) => {
 			addEntity,
 			editColumn,
 			addColumn,
+			deleteColumn,
 			relations,
 			setRelations,
 			updateNodeTableName,

@@ -19,7 +19,7 @@ type Props = {
 export const EntityItem = memo(({ tableName, handleId, column }: Props) => {
 	const { watch } = useFormContext();
 
-	const { editColumn } = useEntity();
+	const { editColumn, deleteColumn } = useEntity();
 
 	const [isHighlight, setHighlight] = useState(false)
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -99,9 +99,16 @@ export const EntityItem = memo(({ tableName, handleId, column }: Props) => {
 							horizontal: 'left',
 						}}
 					>
-						<ColumnInfo column={column} onClose={handleClose} onUpsertColumn={(data) => {
-							editColumn(tableName, data)
-						}} />
+						<ColumnInfo
+							column={column}
+							onClose={handleClose}
+							onDelete={(id) => {
+								deleteColumn(tableName, id);
+								handleClose();
+							}}
+							onUpsertColumn={(data) => {
+								editColumn(tableName, data)
+							}} />
 					</Popover>
 				</Box>
 			</Box>

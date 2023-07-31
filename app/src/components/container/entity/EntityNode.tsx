@@ -123,7 +123,11 @@ export const EntityNode = memo(({ data }: Props) => {
               horizontal: 'left',
             }}
           >
-            <ColumnInfo column={{}} onClose={handlePopoverClose} onUpsertColumn={handleAddColumn} />
+            <ColumnInfo 
+            column={{}} 
+            onClose={handlePopoverClose} 
+            onDelete={() => {}}
+            onUpsertColumn={handleAddColumn} />
           </Popover>
         </Box>
       </Box>
