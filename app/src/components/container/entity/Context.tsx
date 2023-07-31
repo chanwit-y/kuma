@@ -22,6 +22,7 @@ type EntityContextType = {
 	onEdgesChange: OnChange<EdgeChange>,
 	addEntity: () => void,
 	addColumn: (tableName: string, data: any) => void,
+	editColumn: (tableName: string, data: any) => void,
 	relations: Relation[],
 	setRelations: Dispatch<SetStateAction<Relation[]>>,
 	updateNodeTableName: (id: string, tableName: string) => void,
@@ -40,11 +41,6 @@ type Props = {
 };
 const EntityProvider = ({ children, id }: Props) => {
 	const qurEntity = api.entity.getEntity.useQuery(id);
-	// const entities = useMemo(() => {
-	// 	return cloneDeep((qurEntity.data as { nodes: any[] })?.nodes ?? [])
-	// }, [qurEntity.data])
-
-	// const [entities, setEntities] = useState<any[]>([])
 	useEffect(() => {
 		const nodes = cloneDeep((qurEntity.data as { nodes: any[] })?.nodes ?? []);
 		const edges = cloneDeep((qurEntity.data as { edges: any[] })?.edges ?? []);
@@ -54,129 +50,7 @@ const EntityProvider = ({ children, id }: Props) => {
 
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([])
-	// const [nodes, setNodes, onNodesChange] = useNodesState([{
-	// 	id: '4',
-	// 	type: 'custom',
-	// 	position: { x: 100, y: 200 },
-	// 	data: {
-	// 		// selects: {
-	// 		// 	'handle-0': 'smoothstep',
-	// 		// 	'handle-1': 'smoothstep',
-	// 		// },
-	// 		table: {
-	// 			name: "Product",
-	// 			columns: [{
-	// 				name: 'id',
-	// 				isPK: true,
-	// 				isFK: false,
-	// 				dataType: 'int',
-	// 			},
-	// 			{
-	// 				name: 'code',
-	// 				isPK: false,
-	// 				isFK: false,
-	// 				dataType: 'nvarchar',
-	// 				length: 50,
-	// 			},
-	// 			{
-	// 				name: 'name',
-	// 				isPK: false,
-	// 				isFK: false,
-	// 				dataType: 'nvarchar',
-	// 				length: 100,
-	// 			},
-	// 			],
-	// 		},
-	// 	},
-	// },
-	// {
-	// 	id: '5',
-	// 	type: 'custom',
-	// 	position: { x: 300, y: 300 },
-	// 	data: {
-	// 		// selects: {
-	// 		// 	'handle-0': 'smoothstep',
-	// 		// 	'handle-1': 'smoothstep',
-	// 		// },
-	// 		table: {
-	// 			name: "UOM",
-	// 			columns: [{
-	// 				name: 'id',
-	// 				isPK: true,
-	// 				isFK: false,
-	// 				dataType: 'int',
-	// 			}, {
-	// 				name: 'productId',
-	// 				isPK: false,
-	// 				isFK: true,
-	// 				dataType: 'int',
-	// 			}
-	// 				, {
-	// 				name: 'name',
-	// 				isPK: false,
-	// 				isFK: false,
-	// 				dataType: 'nvarchar',
-	// 				length: 50,
-	// 			}],
-	// 		},
-	// 	},
-	// }
-	// ]);
-
 	const [edges, setEdges, onEdgesChange] = useEdgesState([])
-	// const [edges, setEdges, onEdgesChange] = useEdgesState([{
-	// 	id: 'e4-5',
-	// 	source: '4',
-	// 	target: '5',
-	// 	// type: ''
-	// 	// type: 'smoothstep',
-	// 	type: 'step',
-	// 	sourceHandle: 'id',
-	// 	targetHandle: 'productId',
-	// 	data: {
-	// 		selectIndex: 0,
-	// 	},
-	// 	markerEnd: {
-	// 		// type: MarkerType.ArrowClosed,
-	// 		type: MarkerType.ArrowClosed,
-	// 	},
-	// }
-	// 	// , {
-	// 	// 	id: 'e4-6',
-	// 	// 	source: '4',
-	// 	// 	target: '6',
-	// 	// 	// type: ''
-	// 	// 	// type: 'smoothstep',
-	// 	// 	// type: 'step',
-	// 	// 	sourceHandle: 'id',
-	// 	// 	targetHandle: 'productId',
-	// 	// 	data: {
-	// 	// 		selectIndex: 0,
-	// 	// 	},
-	// 	// 	markerEnd: {
-	// 	// 		// type: MarkerType.ArrowClosed,
-	// 	// 		type: MarkerType.ArrowClosed,
-	// 	// 	},
-
-	// 	// }, {
-	// 	// 	id: 'e5-7',
-	// 	// 	source: '5',
-	// 	// 	target: '7',
-	// 	// 	// type: ''
-	// 	// 	// type: 'smoothstep',
-	// 	// 	// type: 'step',
-	// 	// 	sourceHandle: 'id',
-	// 	// 	targetHandle: 'uomId',
-	// 	// 	data: {
-	// 	// 		selectIndex: 0,
-	// 	// 	},
-	// 	// 	markerEnd: {
-	// 	// 		// type: MarkerType.ArrowClosed,
-	// 	// 		type: MarkerType.ArrowClosed,
-	// 	// 	},
-
-	// 	// }
-	// ]);
 
 	const tableNames = useMemo(() => nodes.map((f) => f.data.table.name), [nodes]);
 	const getColumnPKNames = useCallback((tableName: string) => {
@@ -195,8 +69,6 @@ const EntityProvider = ({ children, id }: Props) => {
 	}, []);
 
 	const addEntity = useCallback(() => {
-		// const id = Number(maxBy(nodes, 'id')?.id) + 1; 
-		console.log(id)
 		setNodes((perv) => ([...perv, {
 			id: uuidv4(),
 			type: 'custom',
@@ -211,6 +83,21 @@ const EntityProvider = ({ children, id }: Props) => {
 
 	}, [nodes])
 
+	const editColumn = useCallback((tableName: string, data: any) => {
+		setNodes((prev) => {
+			const tempNodes = [...prev];
+			const indexNode = tempNodes.findIndex((f) => f.data.table.name === tableName);
+			const indexColumn = tempNodes[indexNode]?.data?.table?.columns?.findIndex((f: any) => f?.id === data?.id);
+
+			if (tempNodes[indexNode]?.data?.table?.columns) {
+				tempNodes[indexNode]!.data.table.columns[indexColumn] = data;
+			}
+
+
+			return tempNodes;
+		});
+	}, [setNodes])
+
 	const addColumn = useCallback((tableName: string, data: any) => {
 		console.log(tableName)
 		let nodeId = "";
@@ -218,14 +105,12 @@ const EntityProvider = ({ children, id }: Props) => {
 		setNodes((prev) => {
 			tempNodes = [...prev];
 			const index = tempNodes.findIndex((f) => f.data.table.name === tableName)
-			console.log(tempNodes)
-			console.log(index)
-			console.log(!!tempNodes[index])
+
 			if (tempNodes.length > 0 && !!tempNodes[index]) {
 				nodeId = tempNodes[index]?.id ?? "";
+				data.id = uuidv4();
 				tempNodes[index]!.data.table.columns = [...tempNodes[index]!.data.table.columns, data];
 			}
-			console.log(tempNodes)
 			return tempNodes
 		})
 		console.log(nodeId)
@@ -234,22 +119,6 @@ const EntityProvider = ({ children, id }: Props) => {
 			data.fkTableName !== "") {
 			const currentNode = tempNodes.find((f) => f.id === nodeId)
 			const sourceNode = tempNodes.find((f) => f.data.table.name === data.fkTableName)
-			console.log(sourceNode)
-			console.log({
-				id: `e${sourceNode?.id}-${currentNode?.id}`,
-				source: sourceNode?.id ?? "",
-				target: currentNode?.id ?? "",
-				sourceHandle: data.fkColumnName,
-				targetHandle: data.name,
-				type: 'step',
-				data: {
-					selectIndex: 0,
-				},
-				markerEnd: {
-					type: MarkerType.ArrowClosed,
-				},
-
-			})
 			setEdges((prev) => ([...prev, {
 				id: `e${sourceNode?.id}-${currentNode?.id}`,
 				source: sourceNode?.id ?? "",
@@ -267,7 +136,7 @@ const EntityProvider = ({ children, id }: Props) => {
 			}]))
 		}
 
-	}, [nodes, edges])
+	}, [nodes, edges, setEdges, setNodes])
 
 
 	const mutCreateEntity = api.entity.createEntity.useMutation();
@@ -310,6 +179,7 @@ const EntityProvider = ({ children, id }: Props) => {
 			setEdges,
 			onEdgesChange,
 			addEntity,
+			editColumn,
 			addColumn,
 			relations,
 			setRelations,
@@ -318,10 +188,7 @@ const EntityProvider = ({ children, id }: Props) => {
 			getColumnPKNames,
 			createEntity,
 			updateEntity,
-
 		}}>
-			{/* {JSON.stringify(entities, undefined, 2)} */}
-			{/* {JSON.stringify(nodes, undefined, 2)} */}
 			{children}
 		</EntityContext.Provider>
 

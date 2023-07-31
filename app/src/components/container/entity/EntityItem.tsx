@@ -7,15 +7,19 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { ColumnInfo } from './ColumnInfo';
 import { useFormContext } from 'react-hook-form';
+import { useEntity } from './Context';
 
 type Props = {
 	// type: HandleType;
+	tableName: string;
 	handleId?: string;
 	column: any;
 }
 
-export const EntityItem = memo(({ handleId, column }: Props) => {
+export const EntityItem = memo(({ tableName, handleId, column }: Props) => {
 	const { watch } = useFormContext();
+
+	const { editColumn } = useEntity();
 
 	const [isHighlight, setHighlight] = useState(false)
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -95,7 +99,9 @@ export const EntityItem = memo(({ handleId, column }: Props) => {
 							horizontal: 'left',
 						}}
 					>
-						<ColumnInfo onAddColumn={() => { }} />
+						<ColumnInfo column={column} onClose={handleClose} onUpsertColumn={(data) => {
+							editColumn(tableName, data)
+						}} />
 					</Popover>
 				</Box>
 			</Box>

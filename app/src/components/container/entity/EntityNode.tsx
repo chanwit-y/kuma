@@ -31,47 +31,30 @@ export const EntityNode = memo(({ data }: Props) => {
   const formSetting = useForm(FormSetting.getDefaultForm(schema, { name: data.table.name }));
   const { watch, control } = formSetting;
   const { append, remove, fields } = useFieldArray({ control: control, name: "columns" })
-  // const { append, remove, fields } = useFieldArray({ control: formSetting.control, name: "columns" })
 
-  // const columnCounter = useMemo(() => fields.length, [fields]);
   const tableName = useMemo(() => watch("name"), [watch("name")]);
 
   const handleRename = () => setIsRename(true)
-  // const handleAddColumn = (event: MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget)
-  //   append({});
-  // }
 
   const handleShowColumnInfo = useCallback((event: MouseEvent<HTMLButtonElement>) => {
     console.log("handleAddColumn");
-    // append({});
     setAnchorEl(event.currentTarget)
   }, []);
 
-  // useEffect(() => {
-  //   console.log("columnCounter", columnCounter);
-  // }, [columnCounter]);
-
   const handlePopoverClose = useCallback(() => {
-    // remove(columnCounter - 1);
     setAnchorEl(null)
   }, []);
 
   const handleAddColumn = useCallback((data: any) => {
     append(data);
     addColumn(tableName, data);
-    handlePopoverClose();
+    // handlePopoverClose();
   }, [tableName]);
-  // }, [columnCounter]);
 
   const open = Boolean(anchorEl);
   const id = open ? 'edit-column-popover' : undefined;
 
   const [d] = useState(data);
-
-  // useEffect(() => {
-  //   console.log(formSetting.watch())
-  // }, [])
 
   return (
     <FormProvider {...formSetting} >
@@ -93,17 +76,8 @@ export const EntityNode = memo(({ data }: Props) => {
                 m: .4,
                 borderRadius: .5,
                 bgcolor: blue[50],
-                // transition: "opacity 0.5s ease"
               }}>
-              {/* add FormInputBase */}
               <FormInputBase name="name" />
-              {/* <InputBase
-                value={d.table.name}
-                sx={{
-                  borderRadius: .5,
-                  bgcolor: blue[50],
-                  fontSize: 7,
-                }} /> */}
               <IconButton size='small' sx={{ p: 0, height: 8 }} onClick={() => {
                 formSetting.handleSubmit((d) => {
                   updateNodeTableName(data.table.name, d.name)
@@ -145,30 +119,20 @@ export const EntityNode = memo(({ data }: Props) => {
               horizontal: 'right',
             }}
             transformOrigin={{
-              // vertical: 'top',
               vertical: 'center',
               horizontal: 'left',
             }}
           >
-            <ColumnInfo onAddColumn={handleAddColumn} />
+            <ColumnInfo column={{}} onClose={handlePopoverClose} onUpsertColumn={handleAddColumn} />
           </Popover>
         </Box>
       </Box>
       <Divider />
       <Box py={.5} >
         {d.table.columns.map((c: any) => <>
-          <EntityItem handleId={c.name} column={c} />
-
-          {/* <Divider  /> */}
+          <EntityItem tableName={tableName} handleId={c.name} column={c} />
         </>)}
-        {/* {JSON.stringify(data.table, undefined, 2)}
-        {/* <EntityItem type='source' handleId={id} />
-        <Divider />
-        <EntityItem type='source' handleId={id} />
-        <Divider />
-        <EntityItem type='source' handleId={id} /> */}
       </Box>
-      {/* {JSON.stringify(formSetting.watch(), undefined, 2)} */}
     </FormProvider>
   )
 })

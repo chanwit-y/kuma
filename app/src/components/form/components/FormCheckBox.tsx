@@ -25,12 +25,15 @@ export const FormCheckBox = (props: Props & FormProps) => {
 			control={control}
 			name={name}
 			render={({ field: { onChange, ref, value }, fieldState: { error } }) =>
+<>
 				<CheckBox
 					onChange={onChange}
 					ref={ref}
+					checked={value}
 					value={value}
 					{...props}
 				/>
+</>
 			} />
 	)
 }
