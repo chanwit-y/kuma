@@ -5,11 +5,11 @@ import { maxBy } from 'lodash';
 
 export const ToolBox = () => {
 	const { addEntity, nodes, createEntity, updateEntity } = useEntity();
-	const nextId = useMemo(() => Number(maxBy(nodes, 'id')?.id) + 1, [nodes]);
+	// const nextId = useMemo(() => Number(maxBy(nodes, 'id')?.id) + 1, [nodes]);
 
 	return (
 		<Box>
-			<Button onClick={() => addEntity(nextId.toString())}>Add</Button>
+			<Button onClick={() => addEntity()}>Add</Button>
 			<Button onClick={async () => {
 				console.log(nodes)
 				await createEntity();

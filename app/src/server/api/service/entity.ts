@@ -6,7 +6,7 @@ export const createEntity = async (data: any) => {
 }
 
 export const updateEntity = async (id: string, data: any) => {
-	await firebase.update("entities", id, "nodes", data)
+	await firebase.update("entities", id, "nodes", data.nodes, "edges", data.edges)
 }
 
 export const getEntity = async (id: string) => {
