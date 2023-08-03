@@ -20,6 +20,7 @@
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@/*": [
         "./src/*"
