@@ -17,15 +17,16 @@ import { FormSetting } from "@/components/form/FormSetting";
 
 type Props = {
 	// index: number;
+	tableName: string;
 	column: any;
 	onUpsertColumn: (data: any) => void;
 	onDelete: (id: string) => void;
 	onClose: () => void;
 }
 
-export const ColumnInfo = memo(({ column, onUpsertColumn, onDelete, onClose }: Props) => {
+export const ColumnInfo = memo(({ tableName, column, onUpsertColumn, onDelete, onClose }: Props) => {
 
-	const { tableNames, getColumnPKNames: getColumnNames } = useEntity();
+	const { getOtherTableNames, getColumnPKNames: getColumnNames } = useEntity();
 	const formSetting = useForm(FormSetting.getDefaultForm(schemaColumn, column));
 	const { watch, trigger } = formSetting;
 
@@ -68,7 +69,7 @@ export const ColumnInfo = memo(({ column, onUpsertColumn, onDelete, onClose }: P
 						borderColor={grey[300]}
 					>
 						<Box display='flex' justifyContent="space-between" gap={1}>
-							<FormSelectFieldString name="fkTableName" label="Table" items={tableNames} />
+							<FormSelectFieldString name="fkTableName" label="Table" items={getOtherTableNames(tableName)} />
 							<FormSelectFieldString name="fkColumnName" label="Column" items={getColumnNames(formSetting.watch("fkTableName"))} />
 							<IconButton
 								color="error"

@@ -2,7 +2,6 @@ import { Edge, EdgeChange, MarkerType, Node, useEdgesState } from "reactflow";
 import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { NodeChange, useNodesState } from "reactflow";
 import { api } from "@/util/api";
-import { useQuery } from "@tanstack/react-query";
 import { cloneDeep } from "lodash";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -31,6 +30,7 @@ type EntityContextType = {
 	getColumnPKNames: (tableName: string) => any[];
 	createEntity: () => Promise<void>;
 	updateEntity: () => Promise<void>;
+	getOtherTableNames: (currentTableName: string) => any[];
 };
 const EntityContext = createContext<EntityContextType>(
 	{} as EntityContextType
@@ -54,6 +54,7 @@ const EntityProvider = ({ children, id }: Props) => {
 	const [edges, setEdges, onEdgesChange] = useEdgesState([])
 
 	const tableNames = useMemo(() => nodes.map((f) => f.data.table.name), [nodes]);
+	const getOtherTableNames = useCallback((currentTableName: string) => nodes.filter((f) => f.data.table.name !== currentTableName).map((f) => f.data.table.name), [nodes]);
 	const getColumnPKNames = useCallback((tableName: string) => {
 		const node = nodes.find((f) => f.data.table.name === tableName);
 		return (node?.data.table.columns ?? []).filter((f: any) => f.isPK).map((f: any) => f.name);
@@ -219,6 +220,7 @@ const EntityProvider = ({ children, id }: Props) => {
 			getColumnPKNames,
 			createEntity,
 			updateEntity,
+			getOtherTableNames,
 		}}>
 			{children}
 		</EntityContext.Provider>

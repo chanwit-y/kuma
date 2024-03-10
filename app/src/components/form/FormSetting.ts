@@ -1,4 +1,4 @@
-import { yupResolver } from "@hookform/resolvers/yup";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Control,
   DeepPartial,
@@ -23,7 +23,7 @@ export class FormSetting {
       // criteriaMode: "firstError",
       // shouldFocusError: true,
       // shouldUnregister: true,
-      resolver: yupResolver(schema),
+      resolver: zodResolver(schema),
       defaultValues,
     };
   };
