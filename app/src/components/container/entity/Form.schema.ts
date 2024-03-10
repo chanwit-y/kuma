@@ -10,7 +10,7 @@ export const schemaColumn = z
   .object({
     name: z.string().min(1),
     dataType: z.string().min(1),
-    length: z.number(),
+    length: z.string(),
     isPK: z.boolean(),
     isFK: z.boolean(),
     fkTableName: z.string(),
